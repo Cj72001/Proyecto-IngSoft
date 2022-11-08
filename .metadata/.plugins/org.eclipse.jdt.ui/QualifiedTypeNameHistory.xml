@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.uca.spring.repository.CicloRepository"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.Ciclo"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.Carrera"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.Estudiante"/>
+    <fullyQualifiedTypeName name="com.nilesh.springCRUD.repository.RolesRepository"/>
+    <fullyQualifiedTypeName name="com.nilesh.springCRUD.model.Role"/>
+    <fullyQualifiedTypeName name="javax.transaction.Transactional"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Modifying"/>
+    <fullyQualifiedTypeName name="com.uca.spring.service.ActividadesExtraService"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.MiMateria"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.Materia"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.MateriaO"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
+    <fullyQualifiedTypeName name="com.uca.spring.repository.EvaluacionRepository"/>
+    <fullyQualifiedTypeName name="com.uca.spring.service.EvaluacionService"/>
+    <fullyQualifiedTypeName name="com.uca.spring.service.CarreraService"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.Evaluacion"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="com.uca.spring.model.ActividadesExtra"/>
+    <fullyQualifiedTypeName name="org.springframework.ui.ModelMap"/>
+    <fullyQualifiedTypeName name="javassist.expr.NewArray"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="org.hibernate.persister.entity.MultiLoadOptions"/>
+</qualifiedTypeNameHistroy>

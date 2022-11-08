@@ -1,0 +1,20 @@
+package com.nilesh.springCRUD.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.nilesh.springCRUD.model.users_roles;
+import com.nilesh.springCRUD.repository.User_RoleRepository;
+
+
+@Service
+public class User_RolesServices {
+
+	@Autowired
+	private User_RoleRepository repo;
+	
+	public void createUserRole(users_roles uR) {
+		repo.save(uR);
+	}
+	
+}

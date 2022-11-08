@@ -1,0 +1,5 @@
+package com.nilesh.springCRUD.repository;
+
+public class RolesRepository {
+
+}

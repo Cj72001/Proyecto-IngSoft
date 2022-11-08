@@ -1,0 +1,11 @@
+1653805884110	Delete element
+1653806055184	Rename type 'CINE'
+1653806222582	Rename type 'PAISLOCALIDAD'
+1653806485076	Rename type 'CINERepository'
+1653806628939	Rename type 'PAISLOCALIDADRepository'
+1653807008983	Delete element
+1653807033105	Rename type 'CINEService'
+1653807136630	Rename field 'cineRepository'
+1653807158084	Rename local variable 'oldCine'
+1653807173191	Rename local variable 'optionalCine'
+1653807194390	Rename local variable 'cine'

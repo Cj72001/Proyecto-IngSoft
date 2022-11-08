@@ -1,0 +1,11 @@
+Refactoring.savealleditors=true
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="com.uca.spring.model.Estudiante"><rhs name\="com.uca.spring.model.Estudiante"/></lhs><lhs name\="com.uca.spring.model.Carrera"><rhs name\="com.uca.spring.model.Carrera"/></lhs><lhs name\="com.uca.spring.model.ActividadesExtra"><rhs name\="com.uca.spring.model.ActividadesExtra"/></lhs><lhs name\="com.uca.spring.model.Materia"><rhs name\="com.uca.spring.model.Materia"/></lhs><lhs name\="com.uca.spring.model.MiMateria"><rhs name\="com.uca.spring.model.MiMateria"/></lhs><lhs name\="java.util.Collection"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.lang.Iterable"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.util.List"><rhs name\="java.util.ArrayList"/></lhs></history>
+content_assist_number_of_computers=15
+eclipse.preferences.version=1
+org.eclipse.jdt.internal.ui.navigator.layout=2
+org.eclipse.jdt.internal.ui.navigator.librariesnode=true
+org.eclipse.jdt.ui.formatterprofiles.version=22
+spelling_locale_initialized=true
+typefilter_migrated_2=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true
