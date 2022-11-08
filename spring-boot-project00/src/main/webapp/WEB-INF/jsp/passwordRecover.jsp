@@ -16,7 +16,7 @@
     <div class="main">
 
         <form method="post" action="actualizarContrasena">
-        <img class="box" src="<c:url value='/resources/img/login.jpg'/>" width="200px"/>
+        <img  src="<c:url value='/resources/img/login.jpg'/>" width="100px"/>
             <div class="box">
                 <input type="text" name="nombrePR" placeholder="Nombre Completo" onFocus="field_focus(this, 'nombre');"
                     onblur="field_blur(this, 'nombre');" class="carnet" />
@@ -26,7 +26,7 @@
                     onblur="field_blur(this, 'password');" class="carnet" /> 
                     <h3>${errorPR}</h3>
             </div> <!-- End Box -->
-            <br> <input class="box1" type="submit" value="ACTUALIZAR CONTRASENA">
+            <br> <input class="btn4" type="submit" value="ACTUALIZAR CONTRASENA">
             
         </form>
         

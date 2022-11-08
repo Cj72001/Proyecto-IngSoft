@@ -25,13 +25,7 @@
                 TUS MATERIAS APROBADAS SE HAN ACTUALIZADO
             </h6>
             <h6>
-                TU CUM SE HA ACTUALIZADO
-            </h6>
-            <h6>
                 TUS UVS SE HAN ACTUALIZADO
-            </h6>
-            <h6>
-                TU AVANCE SE HA ACTUALIZADO
             </h6>
             <h6>
                 TIENES NUEVAS POSIBLES MATERIAS

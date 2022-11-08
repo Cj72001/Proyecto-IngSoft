@@ -14,7 +14,7 @@
 <body>
     <div class="main">
         <div class="box">
-        <img src="<c:url value='/resources/img/logout.jpg'/>" width="100px"/>
+        <img src="<c:url value='/resources/img/logout.jpg'/>" width="50px"/>
             <h4>${nombreEstudianteCS}</h4>
             <p>
                 ESTAS SEGURO DE CERRAR ESTE CICLO?

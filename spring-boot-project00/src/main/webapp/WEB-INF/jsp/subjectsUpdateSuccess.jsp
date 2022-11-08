@@ -12,7 +12,7 @@
 <body>
     <div class="main">
         <div class="box">
-        <img class="box"  src="<c:url value='/resources/img/success.jpg'/>" width="100px"/>
+        <img class="box"  src="<c:url value='/resources/img/success.jpg'/>" width="50px"/>
             <h4>${nombreEstudianteUS}</h4>
             <P>
                 HAS ACTUALIZADO LA MATERIA EXITOSAMENTE
@@ -21,7 +21,7 @@
 
     </div>
     <div>
-        <a href="${pageContext.request.contextPath}/semester">Regresar a mi Ciclo</a>
+        <a class="btn2" href="${pageContext.request.contextPath}/semester">Regresar a mi Ciclo</a>
     </div>
 
 </body>

@@ -22,8 +22,14 @@
       </div> <!-- End Box -->
       <h3>${errorU}</h3>
       
-      <br> <input class="btn2"type="submit" value="AGREGAR ACTIVIDAD">
-      <br> <input class="btn2"type="submit" value="ELIMINAR ACTIVIDAD">
+    </form>
+    
+    <form method="post" action="activitiesUpSuccess">
+    <br> <input class="btn2"type="submit" value="AGREGAR ACTIVIDAD">
+    </form>
+    
+    <form method="post" action="activitiesUpSuccess2">
+     <br> <input class="btn2"type="submit" value="ELIMINAR ACTIVIDAD">
     </form>
 
     

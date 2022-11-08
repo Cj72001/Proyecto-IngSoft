@@ -10,9 +10,11 @@
     <title>Data Update</title>
 </head>
 <body>
+
+    <div class="flex-container2">  
     <div class="main">
         <div class="box">
-        <img src="<c:url value='/resources/img/userupdate.jpg'/>" width="100%"/>
+        <img src="<c:url value='/resources/img/userupdate.jpg'/>" width="50%"/>
             <div>
                 <a href="${pageContext.request.contextPath}/userUpdate"><div class="box2">Actualizar Usuario</div></a> <!-- End Btn -->
             </div>
@@ -22,13 +24,15 @@
     <hr/>
     <div class="main">
         <div class="box">
-         <img src="<c:url value='/resources/img/schedule.jpg'/>" width="100%"/>
+         <img src="<c:url value='/resources/img/schedule.jpg'/>" width="50%"/>
             <div>
                 <a href="${pageContext.request.contextPath}/socialUpdate"><div class="box2">Actualizar Horas Sociales</div></a> <!-- End Btn -->
             </div>
         </div>
 
     </div>
+    
+    </div> 
     <div>
         <a href="${pageContext.request.contextPath}/mainPage">Regresar al Inicio</a>
     </div>

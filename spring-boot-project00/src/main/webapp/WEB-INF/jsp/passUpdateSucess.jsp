@@ -12,7 +12,7 @@
 <body>
     <div class="main">
         <div class="box">
-            <img src="<c:url value='/resources/img/success.jpg'/>" width="100px"/>
+            <img src="<c:url value='/resources/img/success.jpg'/>" width="50px"/>
             <h4>${nombreEstudiantePUS}</h4>
             <p>
                 TU CONTRASEÑA SE HA ACTUALIZADO
@@ -23,7 +23,7 @@
     </div>
     <div>
       <form method="get" action="login">
-        <br> <input class="box1" type="submit" value="LOGIN">
+        <br> <input class="btn2 type="submit" value="LOGIN">
       </form>
       </div>
 

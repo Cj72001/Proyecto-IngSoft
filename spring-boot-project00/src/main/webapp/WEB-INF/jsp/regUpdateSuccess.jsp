@@ -24,10 +24,8 @@
 
     </div>
     
-    <div>
-      <form method="get" action="login">
-        <br> <input class="box1" type="submit" value="LOGIN">
-      </form>
+    <div class="padding">
+        <a href="${pageContext.request.contextPath}/login">Login</a>
       </div>
 
 </body>
