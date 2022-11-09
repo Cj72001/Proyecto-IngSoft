@@ -6,12 +6,14 @@ body{
 }
 
 
-
 .main{
   justify-content: center;
   margin-top: 150px;
 }
 
+h2{
+  font-size: 1.5em;
+}
 
 h6{
   color: #9fafc1;
@@ -41,14 +43,31 @@ color: #9fafc1;
 line-height: 20pt;
 }
 
-.lin{ text-decoration: none; 
-margin-top: 60px;
-padding-top: 50px;
-color: #9fafc1;
-line-height: 20pt;
+.btn2{
+  background:#2c3641;
+  justify-content: center;
+  width: 180px;
+	padding: 0.8em;
+  margin: 0 auto 0 auto;
+  color: rgb(255, 255, 255);
+  margin-top: 2px;
+  font-size: 12px;
+
 }
 
-.btn2{
+.btn4{
+ background:#9fafc1;
+  justify-content: center;
+  width: 180px;
+	padding: 0.8em;
+  margin: 0 auto 0 auto;
+  color: rgb(255, 255, 255);
+  margin-top: 2px;
+  font-size: 12px;
+
+}
+
+.btn3{
   background:#2c3641;
   justify-content: center;
   width: 180px;
@@ -64,6 +83,7 @@ line-height: 20pt;
   background:#9fafc1;
   justify-content: center;
   width: 270px;
+  padding: 0.8em;
   border-radius:6px;
   margin: 0 auto 0 auto;
   color: black;
@@ -100,11 +120,51 @@ line-height: 20pt;
   width:250px;
   font-size:1em;
 }
+
 body {
   margin: 0;
   padding: 0;
  
 }
+
+
+.topnav {
+  background-color: #a2aec2;
+  overflow: hidden;
+
+}
+
+
+.topnav a {
+  margin: 0%;
+  float:left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 25px 3.331%;
+  text-decoration: none;
+  flex-grow: 1;
+  width: 10%;
+ 
+}
+
+
+.topnav a:hover {
+  background-color: #ddd;
+  
+  color: black;
+}
+
+
+.topnav a.active {
+  color: white;
+ 
+}
+
+.topnav .icon {
+  display: none;
+}
+
+
 
 .nav ul {
   border: 0.5px solid black;
@@ -158,6 +218,35 @@ body {
   transform: translate(-50%, -40%);
 }
 
+.tablaActivities{
+  border-collapse: collapse;
+  border: 1px solid rgb(0, 0, 0);
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.tablaNormal{
+  border-collapse: collapse;
+  border: 1px solid rgb(0, 0, 0);
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+
+
+.tablaScore{
+  border-collapse: collapse;
+  border: 1px solid rgb(0, 0, 0);
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 200px;
+}
+
 .tabla2 {
 
   border-collapse: collapse;
@@ -170,16 +259,22 @@ body {
   margin-bottom: 25px;
 }
 
+
+table{
+margin: 1em;
+}
+
 th, td {
   padding: 20px;
 }
 
 .padding{
   padding: 20px;
+  margin: 20px;
 }
 
 .down{
-  padding-top: 30%;
+  transform: translate(0px,500px);
 }
 
 .colordiv{
@@ -223,7 +318,7 @@ th, td {
   margin: auto;
 }
 .flex-container div:nth-child(1){
-  margin-top: 80px;
+  margin-top: 30px;
   flex-grow: 1;
   padding: 1%;
   flex-basis: 20vh;
@@ -249,24 +344,24 @@ th, td {
 }
 
 .padding6{
-  padding-top: 50px;
+  padding-top: 25px;
 }
 
 .flex-container2 div:nth-child(1){
 
   flex-grow: 1;
   padding: 1%;
-  flex-basis: 20vh;
+  flex-basis: 15vh;
 }
 .flex-container2 div:nth-child(2){
   flex-grow: 1;
   padding: 1%;
-  flex-basis: 20vh;
+  flex-basis: 15vh;
 }
 .flex-container2 div:nth-child(3){
   flex-grow: 1;
   padding: 1%;
-  flex-basis: 20vh;
+  flex-basis: 15vh;
 }
 
 .position6{
@@ -281,3 +376,227 @@ th, td {
   width:250px;
   color:#AAAAAA;
 }
+
+.hscroll {
+  overflow-x: auto; /* Horizontal */
+}
+
+.grid {
+  padding: 6%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  grid-template-rows: 150px 150px 150px 150px 150px ;
+}
+
+.color{
+  padding: 30%;
+  height: 40%;
+  background: #ffff99;
+
+
+}
+
+strong {
+	font-weight: bold; 
+}
+
+em {
+	font-style: italic; 
+}
+
+table {
+	background: #f5f5f5;
+	border-collapse: separate;
+	box-shadow: inset 0 1px 0 #fff;
+	font-size: 12px;
+	line-height: 24px;
+	margin: 30px auto;
+	text-align: left;
+	width: 800px;
+}	
+
+th {
+	background: url(https://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);
+	border-left: 1px solid #555;
+	border-right: 1px solid #777;
+	border-top: 1px solid #555;
+	border-bottom: 1px solid #333;
+	box-shadow: inset 0 1px 0 #999;
+	color: #fff;
+  font-weight: bold;
+	padding: 10px 15px;
+	position: relative;
+	text-shadow: 0 1px 0 #000;	
+}
+
+th:after {
+	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
+	content: '';
+	display: block;
+	height: 25%;
+	left: 0;
+	margin: 1px 0 0 0;
+	position: absolute;
+	top: 25%;
+	width: 100%;
+}
+
+th:first-child {
+	border-left: 1px solid #777;	
+	box-shadow: inset 1px 1px 0 #999;
+}
+
+th:last-child {
+	box-shadow: inset -1px 1px 0 #999;
+}
+
+td {
+	border-right: 1px solid #fff;
+	border-left: 1px solid #e8e8e8;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #e8e8e8;
+	padding: 10px 15px;
+	position: relative;
+	transition: all 300ms;
+}
+
+td:first-child {
+	box-shadow: inset 1px 0 0 #fff;
+}	
+
+td:last-child {
+	border-right: 1px solid #e8e8e8;
+	box-shadow: inset -1px 0 0 #fff;
+}	
+
+tr {
+	background: url(https://jackrugile.com/images/misc/noise-diagonal.png);	
+}
+
+tr:nth-child(odd) td {
+	background: #f1f1f1 url(https://jackrugile.com/images/misc/noise-diagonal.png);	
+}
+
+tr:last-of-type td {
+	box-shadow: inset 0 -1px 0 #fff; 
+}
+
+tr:last-of-type td:first-child {
+	box-shadow: inset 1px -1px 0 #fff;
+}	
+
+tr:last-of-type td:last-child {
+	box-shadow: inset -1px -1px 0 #fff;
+}	
+
+tbody:hover td {
+	color: transparent;
+	text-shadow: 0 0 3px #aaa;
+}
+
+tbody:hover tr:hover td {
+	color: #444;
+	text-shadow: 0 1px 0 #fff;
+}
+
+
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+
+.login {
+  float: left;
+}
+
