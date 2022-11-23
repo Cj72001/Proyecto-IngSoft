@@ -43,13 +43,14 @@
                 <p>Materias aprobadas</p>
             </div>
 
+            <!--
             <div>
             <img src="<c:url value='/resources/img/subjects.jpg'/>" width="6%"/>
                 <h2>UV</h2>
                 <p>Tienes un total de <b>${uVEstudiante}</b></p>
                 <p>unidades valorativas pasadas</p>
 
-            </div>
+            </div> -->
         </div>
         <div class="flex-container2">
 
