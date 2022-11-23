@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Move element &apos;script-h2.sql&apos; to &apos;springCRUD/src/main/resources&apos;&#x0D;&#x0A;- Original project: &apos;spring-boot-form(taller 2)&apos;&#x0D;&#x0A;- Destination element: &apos;springCRUD/src/main/resources&apos;&#x0D;&#x0A;- Original element: &apos;script-h2.sql&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move file" destination="=springCRUD/src\/main\/resources=/maven.pomderived=/true=/" element1="src/main/resources/script-h2.sql" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1655612836519" units="0" version="1.0"/>
-</session>

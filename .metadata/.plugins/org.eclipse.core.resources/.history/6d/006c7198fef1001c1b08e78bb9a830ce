@@ -1,9 +1,0 @@
-package com.nilesh.springCRUD.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.nilesh.springCRUD.model.Users_roles;
-
-public interface User_RoleRepository extends JpaRepository<Users_roles, Long> {
-
-}
