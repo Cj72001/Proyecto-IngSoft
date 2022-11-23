@@ -741,7 +741,7 @@ public class AppController {
 	  
 	//menu atributos sobre la carrera del estudiante:
 	  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
-	  modelMap.put("anioEstudiante", "Estudiante de "+carreraEstudianteLogeado.getAnioCarrera()+" Anio");
+	  modelMap.put("anioEstudiante", "Estudiante de "+carreraEstudianteLogeado.getAnioCarrera()+" año");
 	  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
 	  modelMap.put("uVEstudiante", carreraEstudianteLogeado.getUvAprobadas());
 	  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
