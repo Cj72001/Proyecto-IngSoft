@@ -249,6 +249,7 @@ public class AppController {
 	  materiaEstudianteEjemplo8.setIdMateria(8);
 	  materiaEstudianteEjemplo8.setUv(3);
 	  materiaEstudianteEjemplo8.setPreRequisito("3");
+	  materiaService.createMateria(materiaEstudianteEjemplo8);
 
 	  materiaEstudianteEjemplo9.setNombreMateria("Física I");
 	  materiaEstudianteEjemplo9.setIdMateria(9);
