@@ -25,9 +25,6 @@
                 TUS MATERIAS APROBADAS SE HAN ACTUALIZADO
             </h6>
             <h6>
-                TUS UVS SE HAN ACTUALIZADO
-            </h6>
-            <h6>
                 TIENES NUEVAS POSIBLES MATERIAS
             </h6>
         </div>

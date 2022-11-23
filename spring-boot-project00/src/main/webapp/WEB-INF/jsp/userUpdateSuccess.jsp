@@ -11,7 +11,8 @@
 </head>
 <body>
     <div class="main">
-        <div class="box"><img src="<c:url value='/resources/img/success.jpg'/>" width="100px"/>
+        <div class="box">
+            <img src="<c:url value='/resources/img/success.jpg'/>" width="100px"/>
       
             <h4>${nombreEstudianteUUS}</h4>
             <P>
