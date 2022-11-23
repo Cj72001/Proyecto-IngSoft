@@ -12,7 +12,7 @@
 <body>
     <div class="main">
         <div class="box">
-        <img src="<c:url value='/resources/img/success.jpg'/>" width="50px"/>
+        <img src="<c:url value='/resources/img/success.jpg'/>" width="100px"/>
             <h4>${nombreEstudianteSUS}</h4>
             <P>
                 HAS ACTUALIZADO TUS HORAS EXITOSAMENTE
