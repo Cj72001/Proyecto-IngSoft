@@ -35,6 +35,7 @@ public class Carrera {
 	@Column(name="MateriasPosibles")
 	String materiasPosibles;
 	
+	
 	@Column(name="HorasSocialesInternas")
 	Integer horasSocialesInternas;
 	

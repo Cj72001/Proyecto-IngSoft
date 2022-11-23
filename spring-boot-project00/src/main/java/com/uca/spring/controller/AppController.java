@@ -534,7 +534,7 @@ public class AppController {
     return "register.jsp";      
   }  
   
-  @PostMapping("/closeSemester")
+  @GetMapping("/closeSemester")
   public String closeSemester(ModelMap modelMap) {
 	modelMap.put("nombreEstudianteCS", estudianteEjemplo.getNombreEstudiante());
     return "closeSemester.jsp"; 

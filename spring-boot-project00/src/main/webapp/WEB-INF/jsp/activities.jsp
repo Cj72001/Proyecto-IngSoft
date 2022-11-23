@@ -27,7 +27,7 @@
         <table class="tablaActivities" border="1px">
 
             <tr>
-            	<td bgcolor="#e5e5e5">Número de la actividad</td>
+            	<td bgcolor="#e5e5e5">Numero de la actividad</td>
                 <td bgcolor="#e5e5e5">Nombre de la actividad</td>
             </tr>
             

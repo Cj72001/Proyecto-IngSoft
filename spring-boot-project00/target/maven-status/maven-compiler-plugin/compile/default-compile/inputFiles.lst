@@ -1,10 +1,19 @@
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\controller\CINEController.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\service\PAISLOCALIDADService.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\repository\CINERepository.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\util\Util.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\model\CINE.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\controller\PAISLOCALIDADControlador.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\service\CINEService.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\model\PAISLOCALIDAD.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\repository\PAISLOCALIDADRepository.java
-C:\Users\Omar\OneDrive\Desktop\UCA\NCapas\WorkSpaceTalleres\spring-boot-form(taller 2)\src\main\java\com\uca\spring\SpringBootConfig.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\repository\ActividadesExtraRepository.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\repository\MateriaRepository.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\service\ActividadesExtraService.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\model\Carrera.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\service\MiMateriaService.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\model\MiMateria.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\repository\EstudianteRepository.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\service\EstudianteService.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\model\Estudiante.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\model\Evaluacion.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\service\MateriaService.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\controller\AppController.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\model\Materia.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\repository\MiMateriaRepository.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\service\CarreraService.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\util\Util.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\repository\CarreraRepository.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\model\ActividadesExtra.java
+C:\Users\Omar\Desktop\proyecto-grupo-de-trabajo-2-thedevelopers\Client\spring-boot\src\main\java\com\uca\spring\SpringBootConfig.java

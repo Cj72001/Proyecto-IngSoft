@@ -1,8 +1,7 @@
 package com.uca.spring;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit; 
 
-import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -27,15 +26,6 @@ public class SpringBootConfig extends SpringBootServletInitializer{
     SpringApplication.run(SpringBootConfig.class, args);
   }
   
-  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	     registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
-	  }
-
-	  @Bean
-	  public ServletRegistrationBean h2servletRegistration() {
-	      ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
-	      registration.addUrlMappings("/h2-console/*");
-	      return registration;
-	  }
+  
   
 }

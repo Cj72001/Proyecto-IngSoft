@@ -78,7 +78,7 @@
                 <div class="btn2">Editar Materias</div>
             </a> <!-- End Btn -->
         </div>
-        <div ">
+        <div>
             <a href="${pageContext.request.contextPath}/closeSemester">
                 <div class="btn2">Cerrar Ciclo</div>
             </a> <!-- End Btn -->
