@@ -11,13 +11,16 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "Estudiante")
+
 @Getter
 @Setter
 public class Estudiante {
 	
-	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(name="idEstudiante")
+	Integer idEstudiante; 
+	
 	@Column(name="Carnet")
 	Integer carnetEstudiante; 
 	
@@ -30,7 +33,5 @@ public class Estudiante {
 	@Column(name="Carrera")
 	Integer carreraEstudiante;
 	
-	@Column(name="CicloActual")
-	Integer cicloActualEstudiante; 
 	
 }
