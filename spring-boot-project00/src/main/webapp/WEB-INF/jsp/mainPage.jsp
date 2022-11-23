@@ -30,7 +30,7 @@
 
             </div>
             <div>
-            <img src="<c:url value='/resources/img/user.jpg'/>" width="20%"/>
+            <img src="<c:url value='/resources/img/logoUca.jpg'/>" width="20%"/>
 
             </div>
         </div>
@@ -60,6 +60,8 @@
                 <p>Tienes un total de <b>${materiasDisponiblesEstudiante}</b></p>
                 <p>Posibles opciones de Materias</p>
             </div>
+
+            <!--
             <div>
             <img src="<c:url value='/resources/img/schedule.jpg'/>" width="10%"/>
                 <h2>Horas Sociales</h2>
@@ -67,7 +69,7 @@
                 <p>horas internas y <b>${horasExternasEstudiante}</b></p>
                 <p>horas externas realizadas</p>
 
-            </div>
+            </div> -->
         </div>
 
     </div>
