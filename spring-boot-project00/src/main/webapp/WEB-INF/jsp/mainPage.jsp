@@ -43,31 +43,29 @@
                 <p>Materias aprobadas</p>
             </div>
 
+            <div>
+                <img src="<c:url value='/resources/img/activities.jpg'/>" width="10%"/>
+                    <h2>Posibles</h2>
+                    <p>Tienes un total de <b>${materiasDisponiblesEstudiante}</b></p>
+                    <p>Posibles opciones de Materias</p>
+                </div>
+    
+                
+                <div>
+                <img src="<c:url value='/resources/img/schedule.jpg'/>" width="10%"/>
+                    <h2>Horas Sociales</h2>
+                    <p>Tienes un total de <b>${horasInternasEstudiante}</b></p>
+                    <p>horas internas y <b>${horasExternasEstudiante}</b></p>
+                    <p>horas externas realizadas</p>
+    
+                </div> 
+
             <!--
             <div>
             <img src="<c:url value='/resources/img/subjects.jpg'/>" width="6%"/>
                 <h2>UV</h2>
                 <p>Tienes un total de <b>${uVEstudiante}</b></p>
                 <p>unidades valorativas pasadas</p>
-
-            </div> -->
-        </div>
-        <div class="flex-container2">
-
-            <div>
-            <img src="<c:url value='/resources/img/activities.jpg'/>" width="10%"/>
-                <h2>Posibles</h2>
-                <p>Tienes un total de <b>${materiasDisponiblesEstudiante}</b></p>
-                <p>Posibles opciones de Materias</p>
-            </div>
-
-            <!--
-            <div>
-            <img src="<c:url value='/resources/img/schedule.jpg'/>" width="10%"/>
-                <h2>Horas Sociales</h2>
-                <p>Tienes un total de <b>${horasInternasEstudiante}</b></p>
-                <p>horas internas y <b>${horasExternasEstudiante}</b></p>
-                <p>horas externas realizadas</p>
 
             </div> -->
         </div>
