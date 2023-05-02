@@ -11,7 +11,4 @@ import com.uca.spring.model.Carrera;
 
 public interface CarreraRepository extends JpaRepository<Carrera, Integer> {
 	
-	@Query("Select x from Carrera x where x.idCarrera=:idCarrera")
-		List<Carrera> getMunicipalitiesByIdDepartament(@Param("idCarrera")  Integer idCarrera);
-	
 }

@@ -34,7 +34,7 @@ public class MiMateriaService {
 	//Es estudiante puede modificiar los campos de la materia
 		public MiMateria updateMateria(MiMateria oldMiMateria, MiMateria newMiMateria) {
 			MiMateria oldMateria = null;
-			java.util.Optional<MiMateria> optionalMateria = miMateriaRepository.findById(oldMiMateria.getIdMiMateria());
+			java.util.Optional<MiMateria> optionalMateria = miMateriaRepository.findById(0);
 			if(optionalMateria.isPresent()) {
 				oldMateria = optionalMateria.get();
 				oldMateria = newMiMateria;
