@@ -653,13 +653,7 @@ public class AppController {
 	//Lista tabla Carrera
 	  List<Carrera> carreras = new ArrayList<Carrera>();
 	  carreraService.getCarreras().forEach(c -> carreras.add(c));
-	  
-	  carreras.forEach( c -> {
-			 if(c.getIdCarrera().toString().equals(estudianteLogeado.getCarreraEstudiante().toString())) {
-				 ////TODO: ACTUALIZAR
-			 }
-		  });
-	  
+	    
 	  
   
 	  
@@ -806,11 +800,7 @@ public class AppController {
 	  List<Carrera> carreras = new ArrayList<Carrera>();
 	  carreraService.getCarreras().forEach(c -> carreras.add(c));
 	  
-	  carreras.forEach(c -> {
-		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  ////TODO ACTUALIZAR
-	  }});
-	  
+
 	  
 	  if(internal.isEmpty()) {
 		  modelMap.put("errorSoU", "No deje espacios en blanco");
@@ -830,10 +820,6 @@ public class AppController {
 	  List<Carrera> carreras = new ArrayList<Carrera>();
 	  carreraService.getCarreras().forEach(c -> carreras.add(c));
 	  
-	  carreras.forEach(c -> {
-		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  ////TODO: ACTUALIZAR
-	  }});
 	  
 	  if(external.isEmpty()) {
 		  modelMap.put("errorSoU2", "No deje espacios en blanco");
