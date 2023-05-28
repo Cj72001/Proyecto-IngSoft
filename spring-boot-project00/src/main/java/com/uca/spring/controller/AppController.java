@@ -1,6 +1,7 @@
 package com.uca.spring.controller;
 
 import java.io.IOException;
+
 import java.time.LocalDate; 
 import java.time.Period;
 import java.util.ArrayList;
@@ -26,14 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.uca.spring.model.ActividadesExtra;
 import com.uca.spring.model.Carrera;
 import com.uca.spring.model.Estudiante;
-import com.uca.spring.model.Evaluacion;
 import com.uca.spring.model.Materia;
-import com.uca.spring.model.MiMateria;
 import com.uca.spring.service.ActividadesExtraService;
 import com.uca.spring.service.CarreraService;
 import com.uca.spring.service.EstudianteService;
 import com.uca.spring.service.MateriaService;
-import com.uca.spring.service.MiMateriaService;
 import com.uca.spring.util.Util;
 
 import javassist.expr.NewArray;
@@ -51,8 +49,7 @@ public class AppController {
 	EstudianteService estudianteService;
 	@Autowired
 	MateriaService materiaService;
-	@Autowired
-	MiMateriaService miMateriaService;
+	
 	
 	//temporales
 	ActividadesExtra actividadExtra1 = new ActividadesExtra();
@@ -75,9 +72,7 @@ public class AppController {
 	ActividadesExtra actividadExtraEstudianteEjemplo2 = new ActividadesExtra();
 	ActividadesExtra actividadExtraEstudianteEjemplo3 = new ActividadesExtra();
 	ActividadesExtra actividadExtraEstudianteEjemplo4 = new ActividadesExtra();
-	
-	//objeto de la tabla MiMateria del estudiante1:
-	MiMateria miMateria1 = new MiMateria();
+
 	
 	//Crear todos los objetos de la malla curricular:
 	Materia materiaEstudianteEjemplo1= new Materia();
@@ -180,19 +175,6 @@ public class AppController {
 	  actividadExtraEstudianteEjemplo2.setNombreActividadesExtra("Entregar proyecto Arqui");
 	  actividadExtraEstudianteEjemplo3.setNombreActividadesExtra("Meet BI 6:30pm");
 	  actividadExtraEstudianteEjemplo4.setNombreActividadesExtra("Ver videos en youtube sobre CSR");
-	  
-	  //MiMateria Estudiante1
-	  miMateria1.setIdMiMateria(1);
-	  miMateria1.setNombreMateria("Fundamentos de Programación");
-	  miMateria1.setCatedratico("Ing1");
-	  miMateria1.setEvaluacion("Sin Editar");
-	  miMateria1.setFecha("Sin Editar");
-	  miMateria1.setNota("Sin Editar");
-	  miMateria1.setPonderacion("Sin Editar");
-	  miMateria1.setIdMateria(4);
-	  miMateria1.setIdEstudiante(1);
-	  miMateriaService.createMiMateria(miMateria1);
-	  
 	  
 	  
 	//Creando objetos tipo materia (seran las materias aprobadas relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
@@ -548,63 +530,7 @@ public class AppController {
   @GetMapping("/semester")
   public String semester(ModelMap modelmap) {
 	  
-	//Lista de tabla MiMateria
-	  List<MiMateria> misMaterias= new ArrayList<MiMateria>();
-	  
-	//Lista de  MiMaterias del estudiante logeado:
-	  List<MiMateria> misMateriasEL= new ArrayList<MiMateria>();
-	  
-	  //Lista de evaluaciones de cada materia:
-	  List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
-	  
-	  miMateriaService.getMisMaterias().forEach(m -> misMaterias.add(m));
-	  
-	  misMaterias.forEach(m->{
-		  if(m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-			  misMateriasEL.add(m);
-			  
-			  }
-	  }); 
-	  
-	  if(misMateriasEL.isEmpty()) {
-		  modelmap.addAttribute("errorSem", "No ha agregado materias");
-	  }
-	  else {
-		  
-	      
-		  misMateriasEL.forEach(m->{
-			  String[] splitNombre = m.getEvaluacion().split(",");
-		      String[] splitPonderacion = m.getPonderacion().split(",");
-		      String[] splitFecha = m.getFecha().split(",");
-		      String[] splitNota = m.getNota().split(",");
-		      
-		      for (int i=0; i<splitNombre.length; i++) {
-		    	  
-		    	  Evaluacion newEvaluacion = new Evaluacion();
-				  newEvaluacion.setEvaluacion(splitNombre[i]);
-				  newEvaluacion.setPonderacion(splitPonderacion[i]);
-				  newEvaluacion.setFecha(splitFecha[i]);
-				  newEvaluacion.setNota(splitNota[i]);
-				  newEvaluacion.setIdMateria(m.getIdMateria());
-				  
-				  evaluaciones.add(newEvaluacion);
-		      }
-		      
-		  });
-		  
-		  
-		  //devuelve la lista que se quiere mostrar
-		  modelmap.addAttribute("misMateriasEL", misMateriasEL);
-		  
-		 
-		  //Evaluaciones de cada materia (materia.getId() == evaluacion.getIdMateria())
-		  modelmap.addAttribute("evaluaciones", evaluaciones);
-		  
-	  }
-	  
-	  
-	  
-	  
+	
     return "semester.jsp";
   } 
  
@@ -614,110 +540,12 @@ public class AppController {
   @GetMapping("/calculateScore")
   public String calculateScore(ModelMap modelmap) {
 	  
-	//Lista de tabla MiMateria
-	  List<MiMateria> misMaterias= new ArrayList<MiMateria>();
-	  
-	//Lista de  MiMaterias del estudiante logeado:
-	  List<MiMateria> misMateriasEL= new ArrayList<MiMateria>();
-	  
-	  //Lista de evaluaciones de cada materia:
-	  List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
-	  
 	  
 	  //Posiciones de las evaluaciones que tienen 0.0
 	  List<Integer> posiciones = new ArrayList<Integer>();
 	  List<Double> multiplicados = new ArrayList<Double>();
 	  List<Double> sumados = new ArrayList<Double>();
-	  
-	  
-	  miMateriaService.getMisMaterias().forEach(m -> misMaterias.add(m));
-	  
-	  misMaterias.forEach(m->{
-		  if(m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-			  misMateriasEL.add(m);
-			  
-			  }
-	  }); 
-	  
-	  if(misMateriasEL.isEmpty()) {
-		  modelmap.addAttribute("errorCS", "No ha agregado materias");
-	  }
-	  else {
-		  
-	      
-		  misMateriasEL.forEach(m->{
-			  String[] splitNombre = m.getEvaluacion().split(",");
-		      String[] splitPonderacion = m.getPonderacion().split(",");
-		      String[] splitFecha = m.getFecha().split(",");
-		      String[] splitNota = m.getNota().split(",");
-		      
-		      if(!m.getNota().equals("Sin Editar")) {
-		    	  
-		    	  
-		    	//guardo posiciones
-			      for (int i=0; i<splitNombre.length; i++) {
-			    	  if(splitNota[i].equals("0.0")) {
-			    		  posiciones.add(i);
-			    	  }
-			      }
-			      
-			      while(suma<6.0) {
-			    	  
-			    	  posiciones.forEach(i->{
-			    		  
-			    		  if(splitNota[i].equals("0.0")) {
-			    			  splitNota[i] = Double.toString((Double.parseDouble(splitNota[i])+6.0));
-			    		  }
-			    		  else {
-			    			  
-			    			  splitNota[i] = Double.toString((Double.parseDouble(splitNota[i])+1.0));
-			    		  }
-			    		  
-			    	  });
-			    	  
-			    	  for (int i=0; i<splitNombre.length; i++) {
-				    	  
-				    	  multiplicados.add( Double.parseDouble(splitNota[i]) * Double.parseDouble(splitPonderacion[i]) );
-				    	  
-				      }
-				      
-			    	  for(int i=0; i<multiplicados.size(); i++) {
-			    		  suma += multiplicados.get(i);
-			    	  }
-				      
-			      }
-			      suma =0.0;
-			      
-			      
-		      }
-		      
-		      
-		      
-		      for (int i=0; i<splitNombre.length; i++) {
-		    	  
-		    	  Evaluacion newEvaluacion = new Evaluacion();
-				  newEvaluacion.setEvaluacion(splitNombre[i]);
-				  newEvaluacion.setPonderacion(splitPonderacion[i]);
-				  newEvaluacion.setFecha(splitFecha[i]);
-				  newEvaluacion.setNota(splitNota[i]);
-				  newEvaluacion.setIdMateria(m.getIdMateria());
-				  
-				  evaluaciones.add(newEvaluacion);
-		      }
-		      
-		  });
-		  
-		  
-		  //devuelve la lista que se quiere mostrar
-		  modelmap.addAttribute("misMateriasELCS", misMateriasEL);
-		  
-		 
-		  //Evaluaciones de cada materia (materia.getId() == evaluacion.getIdMateria())
-		  modelmap.addAttribute("evaluacionesCS", evaluaciones); 
-		  
-	  }
-	  
-	  
+	   
 	  
     return "calculateScore.jsp";
   } 
@@ -745,65 +573,6 @@ public class AppController {
     return "mainPage.jsp";
   } 
   
-  //Agregar ActividadExtra para EstudianteLogeado
-  @PostMapping("/activitiesUpSuccess")
-  public String activitiesUpSuccess(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
-	    
-  
-	  if(nameActivity.isEmpty()) {
-		  modelMap.put("errorU", "No deje espacios en blanco");
-		    return "activitiesUpdate.jsp";
-	  }
-	  else {
-		  
-		//Lista de tabla Estudiante
-		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-		  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
-		  
-		  int lastIdx = actividades.size()-1;
-		  ActividadesExtra lastActividad= actividades.get(lastIdx);
-		  
-		  int idActividadExtra= lastActividad.getIdEstudiante()+1;
-		  
-		  //Creando ActividadExtra
-		  ActividadesExtra newActividad = new ActividadesExtra();
-		  newActividad.setIdActividadesExtra(idActividadExtra);
-		  newActividad.setIdEstudiante(estudianteLogeado.getIdEstudiante());
-		  newActividad.setNombreActividadesExtra(nameActivity);
-		  actividadesExtraService.createActividadExtra(newActividad);
-		  
-		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
-		    return "activitiesUpSuccess.jsp";
-	  }
-	  
-  } 
-  
-//Eliminar ActividadExtra para EstudianteLogeado
-  @PostMapping("/activitiesUpSuccess2")
-  public String activitiesUpSuccess2(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
-	    
-  
-	  if(nameActivity.isEmpty()) {
-		  modelMap.put("errorU", "No deje espacios en blanco");
-		    return "activitiesUpdate.jsp";
-	  }
-	  else {
-		  
-		//Lista de tabla 
-		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-		  actividadesExtraService.getActividades().forEach(a -> {
-			  if(a.getNombreActividadesExtra().equals(nameActivity)) {
-				  actividadesExtraService.deleteActividadExtraById(a.getIdActividadesExtra());
-			  };
-		  });
-		 
-		  
-		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
-		    return "activitiesUpSuccess.jsp";
-	  }
-	  
-    
-  } 
   
   
   @PostMapping("/userUpdateSuccess")
@@ -825,13 +594,7 @@ public class AppController {
 	//Lista tabla Carrera
 	  List<Carrera> carreras = new ArrayList<Carrera>();
 	  carreraService.getCarreras().forEach(c -> carreras.add(c));
-	  
-	  carreras.forEach( c -> {
-			 if(c.getIdCarrera().toString().equals(estudianteLogeado.getCarreraEstudiante().toString())) {
-				 ////TODO: IMPLEMENTA ACTUALIZACION
-			 }
-		  });
-	  
+	    
 	  
   
 	  
@@ -957,372 +720,6 @@ public class AppController {
   
   
   
-  @PostMapping("/subjectsUpdateSuccess")
-  public String subjectsUpdateSuccess(@RequestParam("subject") String subject,@RequestParam("professor") String professor,
-		  ModelMap modelMap){
-	  
-	
-	  
-  
-	  if(subject.isEmpty() || professor.isEmpty() ) {
-		  modelMap.put("errorSU", "No deje espacios en blanco");
-		  
-		  availableSubjects(modelMap);
-		    return "availableSubjects.jsp";
-	  }
-	  else {
-		  
-		//PARA MOSTRAR LAS POSIBLES MATERIAS DEL ESTUDIANTE LOGEADO!!!!!!!!!!!!!!
-		  List<String> materias0 = new ArrayList<String>();
-		  
-		  String materiasPosiblesEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
-	      String[] split = materiasPosiblesEstudianteLogeado.split(",");
-	      
-	      for (int i=0; i<split.length; i++) {
-	    		  materias0.add(split[i]);
-	      } 
-	      
-	      if(!materias0.contains(subject)) {
-	    	  modelMap.put("errorSem3", "No puede inscribir una materia que no tiene habilitada");
-	    	  
-	    	  availableSubjects(modelMap);
-	    	  return "availableSubjects.jsp";
-	      }
-	      else {
-	    	  
-	    	//Lista de tabla MiMateria
-			  List<MiMateria> misMaterias= new ArrayList<MiMateria>();
-			  miMateriaService.getMisMaterias().forEach(m -> misMaterias.add(m));
-			  
-			  misMaterias.forEach(m ->{
-				  //En el caso que la encuentre, le modificara el profesor:
-				  if(m.getIdMateria().toString().equals(subject) && m.getCatedratico().equals(professor)) {
-					  
-					  MiMateria oldMiMateria = m, newMiMateria = m;
-					  newMiMateria.setCatedratico(professor);
-					  
-					  miMateriaService.updateMateria(oldMiMateria, newMiMateria);
-					  
-					  miMateriaEncontrada = true;
-				  }
-			  });
-			  //Si no la encuentra, creara la materia
-			  if(!miMateriaEncontrada) {
-				  
-				  MiMateria newMiMateria = new MiMateria();
-				  
-				  int lastIdx3 = misMaterias.size()-1;
-				  MiMateria lastMiMateria= misMaterias.get(lastIdx3);
-				  int idMiMateria= lastMiMateria.getIdMiMateria()+1;
-				  
-				  newMiMateria.setIdMiMateria(idMiMateria);
-				  newMiMateria.setCatedratico(professor);
-				  newMiMateria.setIdEstudiante(estudianteLogeado.getIdEstudiante());
-				  newMiMateria.setEvaluacion("Sin Editar");
-				  newMiMateria.setFecha("Sin Editar");
-				  newMiMateria.setNota("Sin Editar");
-				  newMiMateria.setPonderacion("Sin Editar");
-				  
-				  
-				  List<Materia> materias= new ArrayList<Materia>();
-				  materiaService.getMaterias().forEach(m -> materias.add(m));
-				  
-				  materias.forEach(m -> {
-					  if(m.getIdMateria().toString().equals(subject)) {
-						  newMiMateria.setIdMateria(m.getIdMateria());
-						  newMiMateria.setNombreMateria(materiaService.getMateriaById(m.getIdMateria()).getNombreMateria());
-					  }
-				  });
-				  
-				  
-				  
-				  miMateriaService.createMiMateria(newMiMateria);
-			  }
-		  }
-	     
-	      materias0.remove(subject);
-    	  
-    	  nuevasMateriasPosibles = String.join(",", materias0);
-          
-    	  
-    	  Carrera newCarrera = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
-    	  newCarrera.setMateriasPosibles(nuevasMateriasPosibles);
-    	  
-    	  carreraService.updateCarreraG(newCarrera, carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()) );
-    	  
-    	  modelMap.put("nombreEstudianteUS", estudianteEjemplo.getNombreEstudiante());
-    	  
-    	  return "subjectsUpdateSuccess.jsp";
-    	  
-	      }
-	      
-	      
-  } 
-  
-  int cantMateriasAprobadas = 0,cantMateriasPosibles=0;
-  List<String> prerrequisitos;
-  
-  @GetMapping("/closeSemesterSuccess")
-  public String closeSemesterSuccess(ModelMap modelMap) {
-	  
-	//Lista de tabla MiMateria
-	  List<MiMateria> miMateria= new ArrayList<MiMateria>();
-	  
-	  //Lista de  MiMaterias del estudiante logeado:
-	  List<MiMateria> misMateriasEL= new ArrayList<MiMateria>();
-	  
-	  //Lista que contiene los id de las materias que aprobo
-	  List<String> idsMateriasAprobadas = new ArrayList<>();
-	  
-	  
-	  miMateriaService.getMisMaterias().forEach(m -> miMateria.add(m));
-	  
-	  miMateria.forEach(m->{
-		  if(m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-			  misMateriasEL.add(m);
-			  }
-	  });
-	  
-	  misMateriasEL.forEach(m ->{
-		  idsMateriasAprobadas.add(m.getIdMateria().toString());
-		  cantMateriasAprobadas++;
-	  });
-	  
-	  Carrera carreraEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
-	  
-	  Carrera newCarrera = new Carrera();
-	  newCarrera = carreraEstudianteLogeado;
-	  //Actualizando materias aprobadas y cantidad de materias aprobadas:
-	  newCarrera.setMateriasAprobadas(newCarrera.getMateriasAprobadas()+String.join(",", idsMateriasAprobadas));
-	  newCarrera.setCantidadMateriasAprobadas(carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasAprobadas()+cantMateriasAprobadas);
-	  carreraService.updateCarreraG(carreraEstudianteLogeado, newCarrera);
-	  
-	  
-	  
-	//Lista de tabla Materia
-	  List<Materia> materias= new ArrayList<Materia>();
-	  List<String> materiasPosibles = new ArrayList<String>();
-	  
-	  List<String> matPosiblesOld = 
-	  Arrays.asList(carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles().split(","));
-	  
-	  
-	  List<String> matPosiblesFinal = new LinkedList<>(matPosiblesOld);
-	  
-	  
-	  
-	  materiaService.getMaterias().forEach(m->{
-		  materias.add(m);
-	  });
-	  
-	  //obteniendo las materias posibles a partis de los ids aprobados
-	  //y buscando las materias que tengan esos prerrequisitos
-	  materias.forEach(m->{
-		  prerrequisitos = Arrays.asList(m.getPreRequisito().split(","));
-		  
-		  prerrequisitos.forEach(p ->{
-			  if(idsMateriasAprobadas.contains(p)) {
-				  if(!materiasPosibles.contains(m)) {
-					  
-					  materiasPosibles.add(m.getIdMateria().toString());
-					  cantMateriasPosibles++;
-					  
-				  }
-			 } 
-		  });
-		  
-	  });
-	  
-	  //Sumando las que ya estan posibles y restandole las aprobadas
-	  cantMateriasPosibles += carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasPosibles();
-	  cantMateriasPosibles -= cantMateriasAprobadas;
-	  
-	  //quitando las materias posibles que ya se aprobaron en bdd 
-	  //y luego agregandole las nuevas posibles
-	  
-	  //Quitamos de matPosiblesFinal las que ya se pasaron
-	  idsMateriasAprobadas.forEach(m->{
-		  if(matPosiblesFinal.contains(m)) {
-			  matPosiblesFinal.remove(m);
-		  }
-	  });
-	  
-	  //Agregamos las materias posibles nuevas a matPosibles final:
-	  materiasPosibles.forEach(m->{
-		 if(!matPosiblesFinal.contains(m)) {
-			 matPosiblesFinal.add(m);
-		 } 
-	  });
-	  
-	  //convertimos matPosiblesFinal a string para actualizarlo
-	  
-	  newCarrera = carreraEstudianteLogeado;
-	  //error
-	  newCarrera.setCantidadMateriasPosibles(cantMateriasPosibles);
-	  newCarrera.setMateriasPosibles(String.join(",", matPosiblesFinal));
-	  carreraService.updateCarreraG(carreraEstudianteLogeado, newCarrera);
-	  
-	  cantMateriasAprobadas = 0;
-	  cantMateriasPosibles=0;
-	  prerrequisitos= new ArrayList<>();
-	  
-	  //Eliminanto materias del ciclo del estudiante
-	  miMateria.forEach(m->{
-		 if(m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())) {
-			 miMateriaService.deleteMiMateriaById(m.getIdMiMateria());
-		 } 
-	  });
-	  
-	  
-	modelMap.put("nombreEstudianteCSS", estudianteEjemplo.getNombreEstudiante());
-    return "closeSemesterSuccess.jsp"; 
-  }  
-  
-  
-  
-  boolean miMateriaActualizada = false;
-  
-  @PostMapping("/subjectsUpdateSuccess2")
-  public String subjectsUpdateSuccess2(@RequestParam("subject") String subject,@RequestParam("nameEvaluation") String nameEvaluation,
-		  @RequestParam("percentageEvaluation") String percentageEvaluation, @RequestParam("dateEvaluation") String dateEvaluation, 
-		  @RequestParam("scoreEvaluation") String scoreEvaluation,
-		  ModelMap modelMap){
-  
-	  
-	  
-	  if(percentageEvaluation.isEmpty() && dateEvaluation.isEmpty() && !nameEvaluation.isEmpty() && !scoreEvaluation.isEmpty()) {
-		  
-		  
-		  //Lista de tabla MiMateria
-		  List<MiMateria> misMaterias= new ArrayList<MiMateria>();
-		  
-		  //Lista de  MiMaterias del estudiante logeado:
-		  List<MiMateria> misMateriasEL= new ArrayList<MiMateria>();
-		  
-		  //Lista de evaluaciones de cada materia:
-		  List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
-		  
-		  
-		  miMateriaService.getMisMaterias().forEach(m -> misMaterias.add(m));
-		  
-		  misMaterias.forEach(m->{
-			  if(m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-				  misMateriasEL.add(m);
-				  
-				  }
-		  }); 
-		  
-		  if(misMateriasEL.isEmpty()) {
-			  modelMap.addAttribute("errorSem", "No ha agregado materias");
-		  }
-		  else {
-			  
-			  //ACTUALIZARA LA NOTA MIMATERIA (UN SOLO STRING):
-			  
-		      //Busca la materia que contenga el nombre de la evaluacion
-			  //y en ese indice modifica la nota en el arreglo
-			  //luego lo hace string para actualizar toda la materia
-			  
-			  
-			  
-			  misMateriasEL.forEach(m->{
-				  String[] splitNombre = m.getEvaluacion().split(",");
-			      String[] splitPonderacion = m.getPonderacion().split(",");
-			      String[] splitFecha = m.getFecha().split(",");
-			      String[] splitNota = m.getNota().split(",");
-			      
-			      
-			      for (int i=0; i<splitNombre.length; i++) {
-			    	  
-			    	  if(splitNombre[i].equals(nameEvaluation) && m.getIdMateria().toString().equals(subject)){
-			    		  splitNota[i] = scoreEvaluation;
-			    		  miMateriaActualizada= true;
-			    	  }
-			    	  else {
-			    		  modelMap.put("errorSU2", "Evaluacion incorrecta");
-			    		  
-			    	  }
-			      }
-			      
-			      m.setEvaluacion(String.join(",", splitNombre));
-			      m.setPonderacion(String.join(",", splitPonderacion));
-			      m.setFecha(String.join(",", splitFecha));
-			      m.setNota(String.join(",", splitNota));
-			      
-			      miMateriaService.updateMateria(miMateriaService.getMiMateriaById(m.getIdMiMateria()), m);
-			      
-			  });
-			  
-			  
-		  }
-		  
-		  if(miMateriaActualizada){
-			  modelMap.put("nombreEstudianteUS", estudianteEjemplo.getNombreEstudiante());
-			  miMateriaActualizada = false;
-			  return "subjectsUpdateSuccess.jsp"; 
-		  }
-		  else{
-			  subjectsUpdate(modelMap);
-			  return "subjectsUpdate.jsp"; 
-		  }
-		  
-	  }
-	  else if(subject.isEmpty() || nameEvaluation.isEmpty() || percentageEvaluation.isEmpty() || dateEvaluation.isEmpty()) {
-		  modelMap.put("errorSU2", "No deje espacios en blanco");
-		  subjectsUpdate(modelMap);
-		    return "subjectsUpdate.jsp";
-	  }
-	  else {
-		  
-			  
-			//Lista de tabla MiMateria
-			  List<MiMateria> misMaterias= new ArrayList<MiMateria>();
-			  miMateriaService.getMisMaterias().forEach(m -> misMaterias.add(m));
-			  
-			  misMaterias.forEach(m ->{
-				  //En el caso que encuentre la materia, le modificara la evaluacion, fecha realizacion, nota, ponderacion:
-				  if(m.getIdMateria().toString().equals(subject) && m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())) {
-					  
-					  MiMateria oldMiMateria = m, newMiMateria = m;
-					  
-					  if(m.getEvaluacion().equals("Sin Editar")) {
-						  
-						  newMiMateria.setEvaluacion(nameEvaluation);
-						  newMiMateria.setNota("0.0");
-						  newMiMateria.setFecha(dateEvaluation);
-						  newMiMateria.setPonderacion(percentageEvaluation);
-						  
-						  miMateriaService.updateMateria(oldMiMateria, newMiMateria);
-						  
-						  miMateriaEncontrada = true;
-					  }
-					  else {
-						  
-						  newMiMateria.setEvaluacion(m.getEvaluacion()+","+nameEvaluation);
-						  newMiMateria.setNota(m.getNota()+",0.0");
-						  newMiMateria.setFecha(m.getFecha()+","+dateEvaluation);
-						  newMiMateria.setPonderacion(m.getPonderacion()+","+percentageEvaluation);
-						  
-						  miMateriaService.updateMateria(oldMiMateria, newMiMateria);
-						  miMateriaEncontrada = true;
-					  }
-					  
-				  }
-			  });
-			  //Si no la encuentra la materia
-			  if(!miMateriaEncontrada) {
-				  modelMap.put("errorSU2", "No tienes registrada esa materia en el ciclo");
-				  subjectsUpdate(modelMap);
-				  return "subjectsUpdate.jsp";
-			  }
-			  else {
-				  modelMap.put("nombreEstudianteUS", estudianteEjemplo.getNombreEstudiante());
-				  return "subjectsUpdateSuccess.jsp";
-			  }
-		  }
-	  
-  } 
-  
   @GetMapping("/activitiesUpdate")
   public String activitiesUpdate() {
     return "activitiesUpdate.jsp";
@@ -1330,28 +727,7 @@ public class AppController {
   
   @GetMapping("/subjectsUpdate")
   public String subjectsUpdate(ModelMap modelmap) {
-	  
-	//Lista de tabla MiMateria
-	  List<MiMateria> misMaterias= new ArrayList<MiMateria>();
-	  
-	//Lista de  Materias del estudiante logeado:
-	  List<MiMateria> misMateriasEL= new ArrayList<MiMateria>();
-	  
-	  miMateriaService.getMisMaterias().forEach(m -> misMaterias.add(m));
-	  
-	  misMaterias.forEach(m->{
-		  if(m.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-			  misMateriasEL.add(m);
-			  }
-	  }); 
-	  
-	  if(misMateriasEL.isEmpty()) {
-		  modelmap.addAttribute("errorSem2", "No ha agregado materias");
-	  }
-	  else {
-//			
-		  modelmap.addAttribute("misMateriasEL2", misMateriasEL);
-	  }
+	 
 	  
     return "subjectsUpdate.jsp";
   } 
@@ -1365,11 +741,7 @@ public class AppController {
 	  List<Carrera> carreras = new ArrayList<Carrera>();
 	  carreraService.getCarreras().forEach(c -> carreras.add(c));
 	  
-	  carreras.forEach(c -> {
-		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  ////TODO IMPLEMENTAR ACTUALIZACION
-	  }});
-	  
+
 	  
 	  if(internal.isEmpty()) {
 		  modelMap.put("errorSoU", "No deje espacios en blanco");
@@ -1389,10 +761,6 @@ public class AppController {
 	  List<Carrera> carreras = new ArrayList<Carrera>();
 	  carreraService.getCarreras().forEach(c -> carreras.add(c));
 	  
-	  carreras.forEach(c -> {
-		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-			  ////TODO: IMPLEMENTAR ACTUALIZACION
-	  }});
 	  
 	  if(external.isEmpty()) {
 		  modelMap.put("errorSoU2", "No deje espacios en blanco");
@@ -1518,6 +886,66 @@ public class AppController {
 	  } 
 	
   } 
+  
+  //Agregar ActividadExtra para EstudianteLogeado
+  @PostMapping("/activitiesUpSuccess")
+  public String activitiesUpSuccess(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
+	    
+  
+	  if(nameActivity.isEmpty()) {
+		  modelMap.put("errorU", "No deje espacios en blanco");
+		    return "activitiesUpdate.jsp";
+	  }
+	  else {
+		  
+		//Lista de tabla Estudiante
+		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
+		  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
+		  
+		  int lastIdx = actividades.size()-1;
+		  ActividadesExtra lastActividad= actividades.get(lastIdx);
+		  
+		  int idActividadExtra= lastActividad.getIdEstudiante()+1;
+		  
+		  //Creando ActividadExtra
+		  ActividadesExtra newActividad = new ActividadesExtra();
+		  newActividad.setIdActividadesExtra(idActividadExtra);
+		  newActividad.setIdEstudiante(estudianteLogeado.getIdEstudiante());
+		  newActividad.setNombreActividadesExtra(nameActivity);
+		  actividadesExtraService.createActividadExtra(newActividad);
+		  
+		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
+		    return "activitiesUpSuccess.jsp";
+	  }
+	  
+  } 
+  
+//Eliminar ActividadExtra para EstudianteLogeado
+  @PostMapping("/activitiesUpSuccess2")
+  public String activitiesUpSuccess2(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
+	    
+  
+	  if(nameActivity.isEmpty()) {
+		  modelMap.put("errorU", "No deje espacios en blanco");
+		    return "activitiesUpdate.jsp";
+	  }
+	  else {
+		  
+		//Lista de tabla 
+		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
+		  actividadesExtraService.getActividades().forEach(a -> {
+			  if(a.getNombreActividadesExtra().equals(nameActivity)) {
+				  actividadesExtraService.deleteActividadExtraById(a.getIdActividadesExtra());
+			  };
+		  });
+		 
+		  
+		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
+		    return "activitiesUpSuccess.jsp";
+	  }
+	  
+    
+  }
   
   
   @PostMapping("/registrarEstudiante")
