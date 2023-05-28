@@ -573,65 +573,6 @@ public class AppController {
     return "mainPage.jsp";
   } 
   
-  //Agregar ActividadExtra para EstudianteLogeado
-  @PostMapping("/activitiesUpSuccess")
-  public String activitiesUpSuccess(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
-	    
-  
-	  if(nameActivity.isEmpty()) {
-		  modelMap.put("errorU", "No deje espacios en blanco");
-		    return "activitiesUpdate.jsp";
-	  }
-	  else {
-		  
-		//Lista de tabla Estudiante
-		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-		  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
-		  
-		  int lastIdx = actividades.size()-1;
-		  ActividadesExtra lastActividad= actividades.get(lastIdx);
-		  
-		  int idActividadExtra= lastActividad.getIdEstudiante()+1;
-		  
-		  //Creando ActividadExtra
-		  ActividadesExtra newActividad = new ActividadesExtra();
-		  newActividad.setIdActividadesExtra(idActividadExtra);
-		  newActividad.setIdEstudiante(estudianteLogeado.getIdEstudiante());
-		  newActividad.setNombreActividadesExtra(nameActivity);
-		  actividadesExtraService.createActividadExtra(newActividad);
-		  
-		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
-		    return "activitiesUpSuccess.jsp";
-	  }
-	  
-  } 
-  
-//Eliminar ActividadExtra para EstudianteLogeado
-  @PostMapping("/activitiesUpSuccess2")
-  public String activitiesUpSuccess2(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
-	    
-  
-	  if(nameActivity.isEmpty()) {
-		  modelMap.put("errorU", "No deje espacios en blanco");
-		    return "activitiesUpdate.jsp";
-	  }
-	  else {
-		  
-		//Lista de tabla 
-		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-		  actividadesExtraService.getActividades().forEach(a -> {
-			  if(a.getNombreActividadesExtra().equals(nameActivity)) {
-				  actividadesExtraService.deleteActividadExtraById(a.getIdActividadesExtra());
-			  };
-		  });
-		 
-		  
-		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
-		    return "activitiesUpSuccess.jsp";
-	  }
-	  
-    
-  } 
   
   
   @PostMapping("/userUpdateSuccess")
@@ -980,6 +921,66 @@ public class AppController {
 	  } 
 	
   } 
+  
+  //Agregar ActividadExtra para EstudianteLogeado
+  @PostMapping("/activitiesUpSuccess")
+  public String activitiesUpSuccess(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
+	    
+  
+	  if(nameActivity.isEmpty()) {
+		  modelMap.put("errorU", "No deje espacios en blanco");
+		    return "activitiesUpdate.jsp";
+	  }
+	  else {
+		  
+		//Lista de tabla Estudiante
+		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
+		  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
+		  
+		  int lastIdx = actividades.size()-1;
+		  ActividadesExtra lastActividad= actividades.get(lastIdx);
+		  
+		  int idActividadExtra= lastActividad.getIdEstudiante()+1;
+		  
+		  //Creando ActividadExtra
+		  ActividadesExtra newActividad = new ActividadesExtra();
+		  newActividad.setIdActividadesExtra(idActividadExtra);
+		  newActividad.setIdEstudiante(estudianteLogeado.getIdEstudiante());
+		  newActividad.setNombreActividadesExtra(nameActivity);
+		  actividadesExtraService.createActividadExtra(newActividad);
+		  
+		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
+		    return "activitiesUpSuccess.jsp";
+	  }
+	  
+  } 
+  
+//Eliminar ActividadExtra para EstudianteLogeado
+  @PostMapping("/activitiesUpSuccess2")
+  public String activitiesUpSuccess2(@RequestParam("nameActivity") String nameActivity, ModelMap modelMap){
+	    
+  
+	  if(nameActivity.isEmpty()) {
+		  modelMap.put("errorU", "No deje espacios en blanco");
+		    return "activitiesUpdate.jsp";
+	  }
+	  else {
+		  
+		//Lista de tabla 
+		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
+		  actividadesExtraService.getActividades().forEach(a -> {
+			  if(a.getNombreActividadesExtra().equals(nameActivity)) {
+				  actividadesExtraService.deleteActividadExtraById(a.getIdActividadesExtra());
+			  };
+		  });
+		 
+		  
+		  modelMap.put("nombreEstudianteAUS", estudianteEjemplo.getNombreEstudiante());
+		    return "activitiesUpSuccess.jsp";
+	  }
+	  
+    
+  }
   
   
   @PostMapping("/registrarEstudiante")
