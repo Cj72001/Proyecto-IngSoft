@@ -55,13 +55,10 @@
                 <div class="box">
                 
                 <label>Materia que agregara</label>
-                    <input type="text" name="subject" placeholder="Números Correlativo de la materia"
+                    <input type="text" name="subject" placeholder="Número Correlativo de la materia"
                         onFocus="field_focus(this, 'subject');" onblur="field_blur(this, 'subject');" class="carnet" />
                     
-                    <input type="text" name="professor" placeholder="Nombre Catedrático"
-                        onFocus="field_focus(this, 'professor');" onblur="field_blur(this, 'professor');"
-                        class="carnet" />
-                        
+               
                         <h3>${errorSU}</h3>
                         
                     <br> <input class="btn2" type="submit" value="Editar Materia">

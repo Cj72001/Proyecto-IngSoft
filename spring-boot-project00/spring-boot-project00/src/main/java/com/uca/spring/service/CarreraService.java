@@ -1,12 +1,11 @@
 package com.uca.spring.service;
 
-import java.util.List;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uca.spring.model.Carrera;
-import com.uca.spring.model.MiMateria;
 import com.uca.spring.repository.CarreraRepository;
 
 @Service
