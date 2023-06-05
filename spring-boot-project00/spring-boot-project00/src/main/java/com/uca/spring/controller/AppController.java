@@ -134,13 +134,6 @@ public class AppController {
 	String nuevasMateriasPosibles = "";
 	String nuevasMateriasAprobadas = "";
 	
-	List<String> nombreActividades = new ArrayList<String>();
-	List<String> ponderacionActividades = new ArrayList<String>();
-	List<String> fechaActividades = new ArrayList<String>();
-	List<String> notaActividades = new ArrayList<String>();
-	List<Integer> idMateriaActividades = new ArrayList<Integer>();
-	int listEvaluacionesSize = 0;
-	
 	
 
 	//Action que se invoca al iniciar la app en la ruta del login (/)
@@ -174,9 +167,7 @@ public class AppController {
 	  carreraEstudiante1.setMateriasAprobadas("1,2,3,4");
 	  carreraEstudiante1.setCantidadMateriasPosibles(4);
 	  carreraEstudiante1.setMateriasPosibles("5,6,7,8");
-	  carreraEstudiante1.setHorasSocialesInternas(105);
-	  carreraEstudiante1.setHorasSocialesExterna(1);
-	  carreraEstudiante1.setAnioCarrera(4);
+	  carreraEstudiante1.setCantidadActividadesExtracurriculares(2);
 	  carreraService.createCarrera(carreraEstudiante1);
 	  
 //Creando objetos tipo ActividadExtra (seran las actividades relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
@@ -493,13 +484,6 @@ public class AppController {
 	  estudianteLogeado = null;
 	  estudianteExiste = false;
 	  
-	  //Limpiando las listas de las evaluaciones
-	  nombreActividades.clear();
-	  ponderacionActividades.clear();
-	  fechaActividades.clear();
-	  notaActividades.clear();
-	  listEvaluacionesSize = 0;
-	  
     return "login.jsp";
   } 
  
@@ -559,12 +543,9 @@ public class AppController {
 	  
 	//menu atributos sobre la carrera del estudiante:
 	  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
-	  modelMap.put("anioEstudiante", "Estudiante de "+carreraEstudianteLogeado.getAnioCarrera()+" año");
 	  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
-	  modelMap.put("uVEstudiante", carreraEstudianteLogeado.getUvAprobadas());
 	  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
-	  modelMap.put("horasInternasEstudiante", carreraEstudianteLogeado.getHorasSocialesInternas());
-	  modelMap.put("horasExternasEstudiante", carreraEstudianteLogeado.getHorasSocialesExterna());
+	  modelMap.put("actividadesExtracurricularesEstudiante", carreraEstudianteLogeado.getCantidadActividadesExtracurriculares());
     return "mainPage.jsp";
   } 
   
@@ -630,8 +611,7 @@ public class AppController {
   
   
   @PostMapping("/userUpdateSuccess")
-  public String userUpdateSuccess(@RequestParam("name") String name, 
-		  @RequestParam("year") String year,
+  public String userUpdateSuccess(@RequestParam("name") String name,
 		  @RequestParam("carnet") String carnet,ModelMap modelMap){
 	  
 	//Lista de tabla Estudiante
@@ -639,26 +619,7 @@ public class AppController {
 	  estudianteService.getEstudiantes().forEach(e -> estudiantes.add(e));
 	  
 	  
-	  estudiantes.forEach( e -> {
-		 if(e.getCarnetEstudiante().toString().equals(carnet)) {
-			 estudianteService.updateEstudianteName(e, name);
-		 }
-	  });
-	  
-	//Lista tabla Carrera
-	  List<Carrera> carreras = new ArrayList<Carrera>();
-	  carreraService.getCarreras().forEach(c -> carreras.add(c));
-	  
-	  carreras.forEach( c -> {
-			 if(c.getIdCarrera().toString().equals(estudianteLogeado.getCarreraEstudiante().toString())) {
-				 carreraService.updateCarreraAnio(c,Integer.parseInt(year));
-			 }
-		  });
-	  
-	  
-  
-	  
-	  if(name.isEmpty() || year.isEmpty() || carnet.isEmpty() ) {
+	  if(name.isEmpty() || carnet.isEmpty() ) {
 		  modelMap.put("errorUU", "No deje espacios en blanco");
 		    return "userUpdate.jsp";
 	  }
@@ -668,6 +629,14 @@ public class AppController {
 		    return "userUpdate.jsp";
 	  }
 	  else{
+		  
+		  estudiantes.forEach( e -> {
+				 if(e.getCarnetEstudiante().toString().equals(estudianteLogeado.getCarnetEstudiante().toString())) {
+					 
+					 estudianteService.updateEstudianteName(e, name);
+				 }
+			  });
+		  
 		  modelMap.put("nombreEstudianteUUS", estudianteEjemplo.getNombreEstudiante());
 		    return "userUpdateSuccess.jsp";
 	  }
@@ -694,8 +663,17 @@ public class AppController {
 			  //a.getActividadHecha();
 	  }});
 	  
-	modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
-    return "activities.jsp";
+	  if(actividadesEstudianteLogeado.isEmpty()) {
+		  
+		  modelMap.addAttribute("errorAE", "No tiene actividades pendientes");  
+		  return "activities.jsp";
+	  }
+	  else {
+		  modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
+		    return "activities.jsp";
+	  }
+	  
+	
   }
   
   
@@ -723,14 +701,25 @@ public class AppController {
   			newActividadExtra.setIdActividadesExtra(idActividadExtra);
   			newActividadExtra.setNombreActividadesExtra(nombreActividad);
   			newActividadExtra.setIdEstudiante(estudianteLogeado.getIdEstudiante());
-
   			actividadesExtraService.createActividadExtra(newActividadExtra);
+  			
+  			Carrera ca = carreraEstudianteLogeado;
+  			int cAEA = ca.getCantidadActividadesExtracurriculares();
+  			ca.setCantidadActividadesExtracurriculares(cAEA+1);
+  			carreraService.updateCarrera(ca);
+  			
   			modelMap.addAttribute("errorAE", "Se ha agregado la actividad");
   		}
 
   		if (!idActivity.isEmpty() && nombreActividad.isEmpty()) {
   			// Eliminar una actividad
   			actividadesExtraService.deleteActividadExtraById(Integer.parseInt(idActivity));
+  			
+  			Carrera ca = carreraEstudianteLogeado;
+  			int cAEA = ca.getCantidadActividadesExtracurriculares();
+  			ca.setCantidadActividadesExtracurriculares(cAEA-1);
+  			carreraService.updateCarrera(ca);
+  			
   			modelMap.addAttribute("errorAE", "Se ha eliminado la actividad");
   		}
 
@@ -1177,55 +1166,7 @@ public class AppController {
   
   //@GetMapping("/subjectsUpdate")
   
-  
-  
-  @PostMapping("/socialUpdate")
-  public String socialUpdate(@RequestParam("internal") String internal, ModelMap modelMap){
-  
-	  
-	  //Lista tabla Carrera
-	  List<Carrera> carreras = new ArrayList<Carrera>();
-	  carreraService.getCarreras().forEach(c -> carreras.add(c));
-	  
-	  carreras.forEach(c -> {
-		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  carreraService.updateCarreraHI(c, Integer.parseInt(internal));
-	  }});
-	  
-	  
-	  if(internal.isEmpty()) {
-		  modelMap.put("errorSoU", "No deje espacios en blanco");
-		    return "socialUpdate.jsp";
-	  }
-	  else{
-		  modelMap.put("nombreEstudianteSUS", estudianteEjemplo.getNombreEstudiante());
-		    return "socialUpdateSuccess.jsp";
-	  }
-    
-  } 
-  
-  @PostMapping("/socialUpdate2")
-  public String socialUpdate2(@RequestParam("external") String external, ModelMap modelMap){
-  
-	//Lista tabla Carrera
-	  List<Carrera> carreras = new ArrayList<Carrera>();
-	  carreraService.getCarreras().forEach(c -> carreras.add(c));
-	  
-	  carreras.forEach(c -> {
-		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  carreraService.updateCarreraHE(c, Integer.parseInt(external));
-	  }});
-	  
-	  if(external.isEmpty()) {
-		  modelMap.put("errorSoU2", "No deje espacios en blanco");
-		    return "socialUpdate.jsp";
-	  }
-	  else{
-		  modelMap.put("nombreEstudianteSUS", estudianteEjemplo.getNombreEstudiante());
-		    return "socialUpdateSuccess.jsp";
-	  }
-    
-  } 
+ 
   
   @PostMapping("/addSubject")
   public String addSubject(@RequestParam("materia") String materia, ModelMap modelMap){
@@ -1302,15 +1243,12 @@ public class AppController {
 				  
 			  
 					//menu atributos sobre la carrera del estudiante:
-					  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
-					  modelMap.put("anioEstudiante", "Estudiante de "+carreraEstudianteLogeado.getAnioCarrera()+" Anio");
-					  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
-					  modelMap.put("uVEstudiante", carreraEstudianteLogeado.getUvAprobadas());
-					  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
-					  modelMap.put("horasInternasEstudiante", carreraEstudianteLogeado.getHorasSocialesInternas());
-					  modelMap.put("horasExternasEstudiante", carreraEstudianteLogeado.getHorasSocialesExterna());
+			  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
+			  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
+			  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
+			  modelMap.put("actividadesExtracurricularesEstudiante", carreraEstudianteLogeado.getCantidadActividadesExtracurriculares());
 					  
-					  return "mainPage.jsp";
+					  return "mainPage.jsp"; 
 				  
 		  }
 		  
@@ -1412,9 +1350,7 @@ public class AppController {
 		  newCarrera.setMateriasAprobadas("0");
 		  newCarrera.setCantidadMateriasPosibles(9);
 		  newCarrera.setMateriasPosibles("1,2,3,4,17,23,32,37,43");
-		  newCarrera.setHorasSocialesInternas(0);
-		  newCarrera.setHorasSocialesExterna(0);
-		  newCarrera.setAnioCarrera(1);
+		  newCarrera.setCantidadActividadesExtracurriculares(0);
 		  carreraService.createCarrera(newCarrera);
 		  
 		 

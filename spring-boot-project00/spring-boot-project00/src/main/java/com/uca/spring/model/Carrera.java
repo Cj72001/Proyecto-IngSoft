@@ -37,15 +37,9 @@ public class Carrera {
 	@Column(name="MateriasPosibles")
 	String materiasPosibles;
 	
+	@Column(name="CantidadActividadesExtracurriculares")
+	Integer cantidadActividadesExtracurriculares;
 	
-	@Column(name="HorasSocialesInternas")
-	Integer horasSocialesInternas;
-	
-	@Column(name="HorasSocialesExternas")
-	Integer horasSocialesExterna;
-	
-	@Column(name="AnioCarrera")
-	Integer anioCarrera;
 
 	public Integer getIdCarrera() {
 		return idCarrera;
@@ -95,29 +89,15 @@ public class Carrera {
 		this.materiasPosibles = materiasPosibles;
 	}
 
-	public Integer getHorasSocialesInternas() {
-		return horasSocialesInternas;
+	public Integer getCantidadActividadesExtracurriculares() {
+		return cantidadActividadesExtracurriculares;
 	}
 
-	public void setHorasSocialesInternas(Integer horasSocialesInternas) {
-		this.horasSocialesInternas = horasSocialesInternas;
+	public void setCantidadActividadesExtracurriculares(Integer cantidadActividadesExtracurriculares) {
+		this.cantidadActividadesExtracurriculares = cantidadActividadesExtracurriculares;
 	}
 
-	public Integer getHorasSocialesExterna() {
-		return horasSocialesExterna;
-	}
-
-	public void setHorasSocialesExterna(Integer horasSocialesExterna) {
-		this.horasSocialesExterna = horasSocialesExterna;
-	}
-
-	public Integer getAnioCarrera() {
-		return anioCarrera;
-	}
-
-	public void setAnioCarrera(Integer anioCarrera) {
-		this.anioCarrera = anioCarrera;
-	}
+	
 	
 	
 	

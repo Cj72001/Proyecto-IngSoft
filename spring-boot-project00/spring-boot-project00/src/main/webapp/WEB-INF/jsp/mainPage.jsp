@@ -21,7 +21,7 @@
                 <h1>${nombreEstudiante}</h1>
                 <p>${anioEstudiante}</p>
                 
-                <a href="${pageContext.request.contextPath}/dataUpdate">
+                <a href="${pageContext.request.contextPath}/userUpdate">
                     <div class="btn2" class="padding6">EDITAR USUARIO</div>
                 </a>
                 
@@ -54,7 +54,7 @@
                 <div>
                 <img src="<c:url value='/resources/img/schedule.jpg'/>" width="10%"/>
                     <h2>Actividades Pendientes</h2>
-                    <p>Tienes un total de <b>${horasInternasEstudiante}</b></p>
+                    <p>Tienes un total de <b>${actividadesExtracurricularesEstudiante}</b></p>
                     <p>de actividades pendientes</p>
     
                 </div>
