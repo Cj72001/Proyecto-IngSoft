@@ -1,8 +1,12 @@
 package com.uca.spring.controller;
 
-import java.io.IOException; 
-import java.time.LocalDate; 
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -26,11 +30,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.uca.spring.model.ActividadesExtra;
 import com.uca.spring.model.Carrera;
 import com.uca.spring.model.Estudiante;
-import com.uca.spring.model.Evaluacion;
+import com.uca.spring.model.Logs;
 import com.uca.spring.model.Materia;
 import com.uca.spring.service.ActividadesExtraService;
 import com.uca.spring.service.CarreraService;
 import com.uca.spring.service.EstudianteService;
+import com.uca.spring.service.LogsService;
 import com.uca.spring.service.MateriaService;
 import com.uca.spring.util.Util;
 
@@ -49,6 +54,9 @@ public class AppController {
 	EstudianteService estudianteService;
 	@Autowired
 	MateriaService materiaService;
+	
+	@Autowired
+	LogsService logsService;
 	
 	//temporales
 	ActividadesExtra actividadExtra1 = new ActividadesExtra();
@@ -667,7 +675,73 @@ public class AppController {
     
   } 
   
+  
+  @GetMapping("/activities")
+  public String activities(ModelMap modelMap) {
+	  
+	//Lista de tabla Estudiante
+	  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
+	  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
+	  
+	  //Lista para mostrar en la tabla de ActividadesExtra
+	  List<ActividadesExtra> actividadesEstudianteLogeado = new ArrayList<ActividadesExtra>();
+	  
+	  actividades.forEach(a -> {
+		  if(a.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
+			  actividadesEstudianteLogeado.add(a);
+			  
+			  //a.getNombreActividadesExtra();
+			  //a.getActividadHecha();
+	  }});
+	  
+	modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
+    return "activities.jsp";
+  }
+  
+  
+  
+  @PostMapping("/activitiesEdit")
+  public String activitiesEdit(@RequestParam("idActivity") String idActivity, 
+  		  @RequestParam("nombreActividad") String nombreActividad,
+  		  ModelMap modelMap) {
+  	  
+  	if (idActivity.isEmpty() && nombreActividad.isEmpty()) {
+  		modelMap.put("errorAE", "Llene al menos un espacio");
+  		activities(modelMap);
+  		return "activities.jsp";
+  	} else {
+  		if (!nombreActividad.isEmpty() && idActivity.isEmpty()) {
+  			// Agregar una nueva actividad
+  			List<ActividadesExtra> actividades = new ArrayList<>();
+  			actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
 
+  			int lastIdx = actividades.size() - 1;
+  			ActividadesExtra lastActividad = actividades.get(lastIdx);
+  			int idActividadExtra = lastActividad.getIdActividadesExtra() + 1;
+
+  			ActividadesExtra newActividadExtra = new ActividadesExtra();
+  			newActividadExtra.setIdActividadesExtra(idActividadExtra);
+  			newActividadExtra.setNombreActividadesExtra(nombreActividad);
+  			newActividadExtra.setIdEstudiante(estudianteLogeado.getIdEstudiante());
+
+  			actividadesExtraService.createActividadExtra(newActividadExtra);
+  			modelMap.addAttribute("errorAE", "Se ha agregado la actividad");
+  		}
+
+  		if (!idActivity.isEmpty() && nombreActividad.isEmpty()) {
+  			// Eliminar una actividad
+  			actividadesExtraService.deleteActividadExtraById(Integer.parseInt(idActivity));
+  			modelMap.addAttribute("errorAE", "Se ha eliminado la actividad");
+  		}
+
+  		activities(modelMap);
+  		return "activities.jsp";
+  	}
+  }
+
+
+  
+  
   @GetMapping("/availableSubjects")
   public String availableSubjects(ModelMap modelmap) {
 	  
@@ -697,83 +771,175 @@ public class AppController {
       
   }
   
-  @GetMapping("/activities")
-  public String activities(ModelMap modelMap) {
+  @GetMapping("/approvedSubjects")
+  public String approvedSubjects(ModelMap modelmap) {
 	  
-	//Lista de tabla Estudiante
-	  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-	  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
+	//Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
+	  //y busca las materias en la tabla Materia y las agrega a la lista materias para mostrarlas
+	  List<Materia> materiasMA = new ArrayList<Materia>();
 	  
-	  //Lista para mostrar en la tabla de ActividadesExtra
-	  List<ActividadesExtra> actividadesEstudianteLogeado = new ArrayList<ActividadesExtra>();
+	  String materiasAprobadasEstudiante = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasAprobadas();
+      String[] split = materiasAprobadasEstudiante.split(",");
+      
 	  
-	  actividades.forEach(a -> {
-		  if(a.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-			  actividadesEstudianteLogeado.add(a);
-			  
-			  //a.getNombreActividadesExtra();
-			  //a.getActividadHecha();
-	  }});
-	  
-	modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
-    return "activities.jsp";
+      for (int i=0; i<split.length; i++) {
+    	  materiasMA.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
+      }
+      
+      materiasMA.remove(null);
+      
+      if(materiasMA.isEmpty()) {
+    	  modelmap.addAttribute("errorMA", "En este momento no tienes materias aprobadas");
+    	  return "approvedSubjects.jsp";
+      }
+      else {
+    	  modelmap.addAttribute("materiasMA", materiasMA);
+    	  return "approvedSubjects.jsp";
+      }
+      
+      
   }
-  
-  @PostMapping("/activitiesEdit")
-  public String activitiesEdit(@RequestParam("idActivity") String idActivity, @RequestParam("nombreActividad") String nombreActividad,
-		  ModelMap modelMap) {
-	  
-	  if(idActivity.isEmpty() && nombreActividad.isEmpty() ) {
-		  modelMap.put("errorSU", "Llene al menos un espacio");
-		  
-		  availableSubjects(modelMap);
-		    return "availableSubjects.jsp";
-	  }
-	  else {
-		  
-		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-		  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
-		  
-		  int lastIdx = actividades.size()-1;
-		  ActividadesExtra lastActividad= actividades.get(lastIdx);
-		  int idActividadExtra= lastActividad.getIdEstudiante()+1;
-		  
-		  if(nombreActividad.isEmpty()){
-			  
-			  actividades.forEach(a ->{
-				  if(a.getIdActividadesExtra().toString().equals(idActivity)) {
-					  actividadesExtraService.deleteActividadExtraById(Integer.parseInt(idActivity));
-					  modelMap.addAttribute("${errorU}", "Se ha eliminado la actividad");
-				  }});
-				  
-		  }
-		  else {
-
-			  ActividadesExtra newActividadExtra = new ActividadesExtra();
-			  newActividadExtra.setIdActividadesExtra(idActividadExtra);
-			  newActividadExtra.setNombreActividadesExtra(nombreActividad);
-			  newActividadExtra.setIdEstudiante(estudianteLogeado.getIdEstudiante());
-			  actividadesExtraService.createActividadExtra(newActividadExtra);
-			  
-			  modelMap.addAttribute("${errorU}", "Se ha agregado la actividad");
-		  }
-			  
-		  activities(modelMap);
-		   return "activities.jsp";
-		  
-	  }
-	  
-	
-	  
-	  
-	  
-	
-  }
-  
   
   
   int cantMateriasAprobadas = 0,cantMateriasPosibles=0;
   List<String> prerrequisitos;
+  
+  //Action para marcar una materia de "materias habiles" (por medio se su correlativo) como aprobada 
+  //y removerla de las posibles y agregar las nuevas posibles en funcion de esa aprobada
+  @PostMapping("/subjectsUpdateSuccess2")
+  public String subjectsUpdateSuccess2(@RequestParam("subject") String subject, ModelMap modelMap){
+	  
+	  
+	  if(subject.isEmpty() ) {
+		  modelMap.put("errorMA", "No deje espacios en blanco");
+		  
+		  approvedSubjects(modelMap);
+		    return "approvedSubjects.jsp";
+	  }
+	  else {
+		  
+		//POSIBLES MATERIAS DEL ESTUDIANTE LOGEADO:
+		  List<String> materias0 = new ArrayList<String>();
+		  
+		  String materiasPosiblesEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
+	      String[] split = materiasPosiblesEstudianteLogeado.split(",");
+	      
+	      for (int i=0; i<split.length; i++) {
+	    		  materias0.add(split[i]);
+	      } 
+	      
+	      cantMateriasPosibles = (carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasPosibles());
+	      
+	      //materias aprobadas del estudiante logueado:
+	      List<String> materias1 = new ArrayList<String>();
+	      
+		  String materiasAprobadasEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasAprobadas();
+	      String[] split1 = materiasAprobadasEstudianteLogeado.split(",");
+	      
+	      for (int i=0; i<split1.length; i++) {
+	    		  materias1.add(split1[i]);
+	      }
+	      
+	      cantMateriasAprobadas = (carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasAprobadas());
+	      
+	      
+	      
+	      
+	      //verificamos si la materia que quiere remover en subject
+	      //la tiene disponible y la puede agregar
+	      if(!materias1.contains(subject)) {
+	    	  modelMap.put("errorMA", "No puede remover una materia que no tiene aprobada");
+	    	  
+	    	  approvedSubjects(modelMap);
+	    	  return "approvedSubjects.jsp";
+	      }
+	      else {
+	    	  //sino se elimina de la lista de ids de materias aprobadas y
+	    	  //se pasa al string de las materias posibles (eliminado de aqui todas aquellas en las cuales
+	    	  //esta removida es requisito)
+	    	  
+	    	  
+	    	  //Agregando las materias posibles en funcion de la que se esta removiendo:
+	    	  //
+	    	  //
+	    	  
+	    	//Lista de tabla Materia
+	  		  List<Materia> materias= new ArrayList<Materia>();
+	  		materiaService.getMaterias().forEach(m->{
+	  			  materias.add(m);
+	  		  });
+	  		
+	  		//obteniendo las materias posibles a partir del id aprobado removido
+	  		  //y buscando las materias que tengan ese prerrequisito
+	  		  materias.forEach(m->{
+	  			  
+
+	  			  //por cada materia existente, se iran guardando los prerrequisitos
+	  			  prerrequisitos = Arrays.asList(m.getPreRequisito().split(","));
+	  			  
+	  			  prerrequisitos.forEach(p ->{
+	  				  
+	  				//para cada prerrequisito veremos si es el mismo id de la materia aprobada removida
+	  				  if(subject.equals(p)) {
+	  					  
+	  					  //entonces si el prerrequisito es el mismo 
+	  					  //seleccionaremos la materia
+	  					  //si esa materia esta en materias posibles ya la removeremos:
+	  					  if(materias0.contains(m.getIdMateria().toString())) {
+	  						  
+	  						  materias0.remove(m.getIdMateria().toString());
+	  						  cantMateriasPosibles--;
+	  						  
+	  					  }
+	  				 } 
+	  			  });
+	  			  
+	  		  });
+	  		  
+	  		  //Sumandole la aprobada removida
+	  		  cantMateriasPosibles += 1;
+	  		  
+	  		  //Agregando la aprobada removida a las posibles
+	  		  materias0.add(subject);
+	    	  nuevasMateriasPosibles = String.join(",", materias0);
+	    	  
+	    	  
+	    	  //Removiendo la materia aprobada de las materias aprobadas:
+		      materias1.remove(subject);
+		      nuevasMateriasAprobadas = String.join(",", materias1);
+		      
+		      //cantidad de materia aprobadas
+		      cantMateriasAprobadas -= 1;
+		      
+		      //Actualizando materias posibles y materias aprobadas
+		      Carrera newCarrera = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
+	    	  newCarrera.setMateriasPosibles(nuevasMateriasPosibles);
+	    	  newCarrera.setMateriasAprobadas(nuevasMateriasAprobadas);
+	    	  newCarrera.setCantidadMateriasPosibles(cantMateriasPosibles);
+	    	  newCarrera.setCantidadMateriasAprobadas(cantMateriasAprobadas);
+	    	  carreraService.updateCarreraG(newCarrera, carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()) );
+	    	  
+	    	  
+	    	  //Reiniciando variables:
+	    	  cantMateriasAprobadas = 0;
+	  		  cantMateriasPosibles=0;
+	  		  prerrequisitos= new ArrayList<>();
+	    	  
+	      }
+	    
+	      
+	     
+	      //mostrar mensaje que la lista se ha actualizado correctamente
+    	  modelMap.put("nombreEstudianteUS", estudianteEjemplo.getNombreEstudiante());
+    	  
+    	  return "subjectsUpdateSuccess.jsp";
+    	  
+	      }
+	     
+  } 
+  
+  
+ 
   List<String> prerrequisitosExcepto;
   
   //Action para marcar una materia de "materias habiles" (por medio se su correlativo) como aprobada 
@@ -814,7 +980,7 @@ public class AppController {
 	      //verificamos si la materia que quiere agregar en subject (como aprobada)
 	      //la tiene disponible y la puede agregar
 	      if(!materias0.contains(subject)) {
-	    	  modelMap.put("errorSem3", "No puede inscribir una materia que no tiene habilitada");
+	    	  modelMap.put("errorSU", "No puede inscribir una materia que no tiene habilitada");
 	    	  
 	    	  availableSubjects(modelMap);
 	    	  return "availableSubjects.jsp";
@@ -857,7 +1023,7 @@ public class AppController {
 	  					  //entonces si el prerrequisito es el mismo y los demas prerrequisito ya se aprobaron
 	  					  //seleccionaremos la materia
 	  					  //si esa materia no esta en materias posibles ya:
-	  					  if(!materias0.contains(m)) {
+	  					  if(!materias0.contains(m.getIdMateria().toString())) {
 	  						  
 	  						  materias0.add(m.getIdMateria().toString());
 	  						  cantMateriasPosibles++;
@@ -1088,6 +1254,23 @@ public class AppController {
 		  return "login.jsp";
 	  }
 	  else {
+		  
+		  //Registrando log
+		  Logs newLog = new Logs();
+		  // Obteniendo la fecha y hora actual
+		  LocalDateTime fechaActual = LocalDateTime.now();
+
+		  // Formateando la fecha como una cadena de texto en el formato deseado
+		  DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		  String fechaFormateada = fechaActual.format(formatoFecha);
+
+		  // Estableciendo la fecha en el objeto newLog
+		  newLog.setFecha(fechaFormateada);
+		  newLog.setCarnet(CARNET);
+		  logsService.createLog(newLog);
+		  
+		  
+		  
 		//Lista de tabla Estudiante
 		  List<Estudiante> estudiantes = new ArrayList<Estudiante>();
 		  estudianteService.getEstudiantes().forEach(e -> estudiantes.add(e));

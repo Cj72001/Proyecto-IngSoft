@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%@include file="/WEB-INF/jsp/include-css.jsp" %>
-    <title>Available Subjects</title>
+    <title>Aproved Subjects</title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
         </div>
         
         <h1 class="colordiv">
-                ${errorSem3}
+                ${errorMA0}
          </h1>
     
         <div>
@@ -37,7 +37,7 @@
                     <td bgcolor="#e5e5e5"> Prerequisito </td>
                 </tr>
                 
-                <c:forEach var="m" items="${materias}">
+                <c:forEach var="m" items="${materiasMA}">
 		
 				<tr>
                 <td>${m.getIdMateria()}</td>
@@ -51,17 +51,17 @@
             </table>
         </div>
 
-    <form method="post" action="subjectsUpdateSuccess">
+    <form method="post" action="subjectsUpdateSuccess2">
                 <div class="box">
                 
-                <label>Materia que agregara</label>
+                <label>Materia que removera</label>
                     <input type="text" name="subject" placeholder="Número Correlativo de la materia"
                         onFocus="field_focus(this, 'subject');" onblur="field_blur(this, 'subject');" class="carnet" />
                     
                
-                        <h3>${errorSU}</h3>
+                        <h3>${errorMA}</h3>
                         
-                    <br> <input class="btn2" type="submit" value="Agregar Materia">
+                    <br> <input class="btn2" type="submit" value="Remover Materia">
                 </div> <!-- End Box --> 
                 </form>
                 
