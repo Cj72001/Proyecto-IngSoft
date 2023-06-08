@@ -45,26 +45,25 @@ import javassist.expr.NewArray;
 @RequestMapping("/")
 public class AppController {
 	
+	//services para DML de la bdd
 	@Autowired
 	ActividadesExtraService actividadesExtraService;
 	@Autowired
 	CarreraService carreraService;
-	
 	@Autowired
 	EstudianteService estudianteService;
 	@Autowired
 	MateriaService materiaService;
-	
 	@Autowired
 	LogsService logsService;
 	
-	//temporales
+	//actividades extras temporales
 	ActividadesExtra actividadExtra1 = new ActividadesExtra();
 	ActividadesExtra actividadExtra2 = new ActividadesExtra();
 	Estudiante estudianteEjemplo = new Estudiante();
 	Carrera carreraEstudianteEjemplo = new Carrera();
 	
-	//Creando estudiantes:
+	//Creando estudiante ejemplo:
 	Estudiante estudiante1 =  new Estudiante();
 	boolean estudianteExiste = false;
 	Estudiante estudianteLogeado = new Estudiante();
@@ -80,7 +79,7 @@ public class AppController {
 	ActividadesExtra actividadExtraEstudianteEjemplo3 = new ActividadesExtra();
 	ActividadesExtra actividadExtraEstudianteEjemplo4 = new ActividadesExtra();
 	
-	//Crear todos los objetos de la malla curricular:
+	//Crear todos los objetos para la malla curricular (ing informatica):
 	Materia materiaEstudianteEjemplo1= new Materia();
 	Materia materiaEstudianteEjemplo2= new Materia();
 	Materia materiaEstudianteEjemplo3= new Materia();
@@ -126,7 +125,7 @@ public class AppController {
 	Materia materiaEstudianteEjemplo43= new Materia();
 	Materia materiaEstudianteEjemplo44= new Materia();
 	
-	//vars que se ocupan a nivel global para cada action (metodo)
+	//vars que se ocupan a nivel global para cada action
 	boolean contraActualizada = false;
 	boolean usuarioActualizado = false;
 	boolean miMateriaEncontrada = false;
@@ -135,23 +134,29 @@ public class AppController {
 	String nuevasMateriasAprobadas = "";
 	
 	
-
-	//Action que se invoca al iniciar la app en la ruta del login (/)
+	
+	
+	
+	////ACTIONS PARA RUTAS (para cargar jsp):
+	//-------------------------------------------------------------------------------------------------------------------------
+	
+	//Action que se invoca al iniciar la app en la ruta (/)
   @GetMapping("/")
   public String getForm() {
 	  
+	  //seteando y creando actividades para estudiante1
 	  actividadExtra1.setIdActividadesExtra(2);
 	  actividadExtra1.setIdEstudiante(1);
-	  actividadExtra1.setNombreActividadesExtra("Ir a devolver libros");
+	  actividadExtra1.setNombreActividadesExtra("Reunirse con el grupo de ARI 10:00pm");
 	  
 	  actividadExtra2.setIdActividadesExtra(3);
 	  actividadExtra2.setIdEstudiante(1);
-	  actividadExtra2.setNombreActividadesExtra("Renovar CARNET");
+	  actividadExtra2.setNombreActividadesExtra("Renovar CARNET miercoles 7 junio");
 	  
 	  actividadesExtraService.createActividadExtra(actividadExtra1);
 	  actividadesExtraService.createActividadExtra(actividadExtra2);
 	  
-	  //Creando objeto tipo Estudiante para ejemplo:
+	  //Seteando atributos para estudiante1 y crearlo en bdd para ejemplo:
 	  estudiante1.setCarnetEstudiante(38619);
 	  estudiante1.setIdEstudiante(1);
 	  estudiante1.setNombreEstudiante("Omar Flores Alas");
@@ -160,7 +165,7 @@ public class AppController {
 	  estudianteService.createEstudiante(estudiante1);
 	  
 	  
-	//Creando objeto tipo Carrera para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
+	  //seteando carrera1 para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
 	  carreraEstudiante1.setIdCarrera(1);
 	  carreraEstudiante1.setUvAprobadas(102);
 	  carreraEstudiante1.setCantidadMateriasAprobadas(4);
@@ -170,17 +175,10 @@ public class AppController {
 	  carreraEstudiante1.setCantidadActividadesExtracurriculares(2);
 	  carreraService.createCarrera(carreraEstudiante1);
 	  
-//Creando objetos tipo ActividadExtra (seran las actividades relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
 	  
-	  actividadExtraEstudianteEjemplo1.setNombreActividadesExtra("Reunirse con el grupo de Simu");
-	  actividadExtraEstudianteEjemplo2.setNombreActividadesExtra("Entregar proyecto Arqui");
-	  actividadExtraEstudianteEjemplo3.setNombreActividadesExtra("Meet BI 6:30pm");
-	  actividadExtraEstudianteEjemplo4.setNombreActividadesExtra("Ver videos en youtube sobre CSR");
-	  
-	  
-	  
-	//Creando objetos tipo materia (seran las materias aprobadas relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
-	//OBJETOD DE MALLA (prerequisito =0 cuando sea bachillerato)
+	  //seteando materias (seran las materias aprobadas relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
+	  //OBJETO DE MALLA (prerequisito =0 cuando sea bachillerato)
+	  //materias de ingenieria informatica:
 	  materiaEstudianteEjemplo1.setNombreMateria("Precálculo");
 	  materiaEstudianteEjemplo1.setIdMateria(1);
 	  materiaEstudianteEjemplo1.setUv(4);
@@ -475,11 +473,125 @@ public class AppController {
     return "login.jsp";
   }
   
-  //Actions para rutas (para botones):
+  //Para menu:
+  @GetMapping("/mainPage")
+  public String mainPage(ModelMap modelMap) {
+	  
+	//Lista de tabla Estudiante
+	  List<Estudiante> estudiantes = new ArrayList<Estudiante>();
+	  estudianteService.getEstudiantes().forEach(e -> estudiantes.add(e));
+	  
+	  estudiantes.forEach(e -> {
+		  if(e.getIdEstudiante().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
+		  estudianteLogeado = e;
+		  carreraEstudianteLogeado = carreraService.getCarreraById(e.getIdEstudiante());
+	  }});
+	  
+	//menu atributos sobre la carrera del estudiante:
+	  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
+	  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
+	  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
+	  modelMap.put("actividadesExtracurricularesEstudiante", carreraEstudianteLogeado.getCantidadActividadesExtracurriculares());
+    return "mainPage.jsp";
+  }
+  
+  //Para las materias habiles:
+  @GetMapping("/availableSubjects")
+  public String availableSubjects(ModelMap modelmap) {
+	  
+	//Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
+	  //y busca las materias en la tabla Materia y las agrega a la lista materias para mostrarlas
+	  List<Materia> materias = new ArrayList<Materia>();
+	  
+	  String materiasHabilesEstudiante = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
+      String[] split = materiasHabilesEstudiante.split(",");
+      
+	  
+      for (int i=0; i<split.length; i++) {
+    	  materias.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
+      }
+      
+      materias.remove(null);
+      
+      if(materias.isEmpty()) {
+    	  modelmap.addAttribute("errorSem3", "En este momento no tienes materias disponibles");
+    	  return "availableSubjects.jsp";
+      }
+      else {
+    	  modelmap.addAttribute("materias", materias);
+    	  return "availableSubjects.jsp";
+      }
+      
+      
+  }
+  
+  //para las actividades extracurriculares:
+  @GetMapping("/activities")
+  public String activities(ModelMap modelMap) {
+	  
+	//Lista de tabla Estudiante
+	  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
+	  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
+	  
+	  //Lista para mostrar en la tabla de ActividadesExtra
+	  List<ActividadesExtra> actividadesEstudianteLogeado = new ArrayList<ActividadesExtra>();
+	  
+	  actividades.forEach(a -> {
+		  if(a.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
+			  actividadesEstudianteLogeado.add(a);
+			  
+			  //a.getNombreActividadesExtra();
+			  //a.getActividadHecha();
+	  }});
+	  
+	  if(actividadesEstudianteLogeado.isEmpty()) {
+		  
+		  modelMap.addAttribute("errorAE", "No tiene actividades pendientes");  
+		  return "activities.jsp";
+	  }
+	  else {
+		  modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
+		    return "activities.jsp";
+	  }
+	  
+	
+  }
+  
+  //Para las actividades aprovadas:
+  @GetMapping("/approvedSubjects")
+  public String approvedSubjects(ModelMap modelmap) {
+	  
+	//Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
+	  //y busca las materias en la tabla Materia y las agrega a la lista materias para mostrarlas
+	  List<Materia> materiasMA = new ArrayList<Materia>();
+	  
+	  String materiasAprobadasEstudiante = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasAprobadas();
+      String[] split = materiasAprobadasEstudiante.split(",");
+      
+	  
+      for (int i=0; i<split.length; i++) {
+    	  materiasMA.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
+      }
+      
+      materiasMA.remove(null);
+      
+      if(materiasMA.isEmpty()) {
+    	  modelmap.addAttribute("errorMA", "En este momento no tienes materias aprobadas");
+    	  return "approvedSubjects.jsp";
+      }
+      else {
+    	  modelmap.addAttribute("materiasMA", materiasMA);
+    	  return "approvedSubjects.jsp";
+      }
+      
+      
+  }
+  
+  
+  //Al volver al login o al deslogearse para que reinicie el estudiante logeado
   @GetMapping("/login")
   public String login() {
 	  
-	  //Al volver al login o al deslogearse para que reinicie el estudiante logeado
 	  carreraEstudianteLogeado = null;
 	  estudianteLogeado = null;
 	  estudianteExiste = false;
@@ -525,29 +637,20 @@ public class AppController {
   public String socialUpdate() {
     return "socialUpdate.jsp";
   } 
+  
+  @GetMapping("/activitiesUpdate")
+  public String activitiesUpdate() {
+    return "activitiesUpdate.jsp";
+  }
+  
+  
    
   
-  
-  @GetMapping("/mainPage")
-  public String mainPage(ModelMap modelMap) {
-	  
-	//Lista de tabla Estudiante
-	  List<Estudiante> estudiantes = new ArrayList<Estudiante>();
-	  estudianteService.getEstudiantes().forEach(e -> estudiantes.add(e));
-	  
-	  estudiantes.forEach(e -> {
-		  if(e.getIdEstudiante().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  estudianteLogeado = e;
-		  carreraEstudianteLogeado = carreraService.getCarreraById(e.getIdEstudiante());
-	  }});
-	  
-	//menu atributos sobre la carrera del estudiante:
-	  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
-	  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
-	  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
-	  modelMap.put("actividadesExtracurricularesEstudiante", carreraEstudianteLogeado.getCantidadActividadesExtracurriculares());
-    return "mainPage.jsp";
-  } 
+ 
+
+  ////ACTIONS PARA post mapping (para botones):
+  //-------------------------------------------------------------------------------------------------------------------------
+	
   
   //Agregar ActividadExtra para EstudianteLogeado
   @PostMapping("/activitiesUpSuccess")
@@ -609,7 +712,7 @@ public class AppController {
     
   } 
   
-  
+  //Actualizar nombre de usuario:
   @PostMapping("/userUpdateSuccess")
   public String userUpdateSuccess(@RequestParam("name") String name,
 		  @RequestParam("carnet") String carnet,ModelMap modelMap){
@@ -644,40 +747,7 @@ public class AppController {
     
   } 
   
-  
-  @GetMapping("/activities")
-  public String activities(ModelMap modelMap) {
-	  
-	//Lista de tabla Estudiante
-	  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-	  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
-	  
-	  //Lista para mostrar en la tabla de ActividadesExtra
-	  List<ActividadesExtra> actividadesEstudianteLogeado = new ArrayList<ActividadesExtra>();
-	  
-	  actividades.forEach(a -> {
-		  if(a.getIdEstudiante().equals(estudianteLogeado.getIdEstudiante())){
-			  actividadesEstudianteLogeado.add(a);
-			  
-			  //a.getNombreActividadesExtra();
-			  //a.getActividadHecha();
-	  }});
-	  
-	  if(actividadesEstudianteLogeado.isEmpty()) {
-		  
-		  modelMap.addAttribute("errorAE", "No tiene actividades pendientes");  
-		  return "activities.jsp";
-	  }
-	  else {
-		  modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
-		    return "activities.jsp";
-	  }
-	  
-	
-  }
-  
-  
-  
+  //agregar o eliminar actividad:
   @PostMapping("/activitiesEdit")
   public String activitiesEdit(@RequestParam("idActivity") String idActivity, 
   		  @RequestParam("nombreActividad") String nombreActividad,
@@ -728,73 +798,11 @@ public class AppController {
   	}
   }
 
-
-  
-  
-  @GetMapping("/availableSubjects")
-  public String availableSubjects(ModelMap modelmap) {
-	  
-	//Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
-	  //y busca las materias en la tabla Materia y las agrega a la lista materias para mostrarlas
-	  List<Materia> materias = new ArrayList<Materia>();
-	  
-	  String materiasHabilesEstudiante = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
-      String[] split = materiasHabilesEstudiante.split(",");
-      
-	  
-      for (int i=0; i<split.length; i++) {
-    	  materias.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
-      }
-      
-      materias.remove(null);
-      
-      if(materias.isEmpty()) {
-    	  modelmap.addAttribute("errorSem3", "En este momento no tienes materias disponibles");
-    	  return "availableSubjects.jsp";
-      }
-      else {
-    	  modelmap.addAttribute("materias", materias);
-    	  return "availableSubjects.jsp";
-      }
-      
-      
-  }
-  
-  @GetMapping("/approvedSubjects")
-  public String approvedSubjects(ModelMap modelmap) {
-	  
-	//Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
-	  //y busca las materias en la tabla Materia y las agrega a la lista materias para mostrarlas
-	  List<Materia> materiasMA = new ArrayList<Materia>();
-	  
-	  String materiasAprobadasEstudiante = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasAprobadas();
-      String[] split = materiasAprobadasEstudiante.split(",");
-      
-	  
-      for (int i=0; i<split.length; i++) {
-    	  materiasMA.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
-      }
-      
-      materiasMA.remove(null);
-      
-      if(materiasMA.isEmpty()) {
-    	  modelmap.addAttribute("errorMA", "En este momento no tienes materias aprobadas");
-    	  return "approvedSubjects.jsp";
-      }
-      else {
-    	  modelmap.addAttribute("materiasMA", materiasMA);
-    	  return "approvedSubjects.jsp";
-      }
-      
-      
-  }
-  
-  
+  //Action para marcar una materia de "materias habiles" (por medio se su correlativo) como aprobada 
+  //y removerla de las posibles y agregar las nuevas posibles en funcion de esa aprobada
   int cantMateriasAprobadas = 0,cantMateriasPosibles=0;
   List<String> prerrequisitos;
   
-  //Action para marcar una materia de "materias habiles" (por medio se su correlativo) como aprobada 
-  //y removerla de las posibles y agregar las nuevas posibles en funcion de esa aprobada
   @PostMapping("/subjectsUpdateSuccess2")
   public String subjectsUpdateSuccess2(@RequestParam("subject") String subject, ModelMap modelMap){
 	  
@@ -807,7 +815,7 @@ public class AppController {
 	  }
 	  else {
 		  
-		//POSIBLES MATERIAS DEL ESTUDIANTE LOGEADO:
+		  //POSIBLES MATERIAS DEL ESTUDIANTE LOGEADO:
 		  List<String> materias0 = new ArrayList<String>();
 		  
 		  String materiasPosiblesEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
@@ -845,8 +853,7 @@ public class AppController {
 	      else {
 	    	  //sino se elimina de la lista de ids de materias aprobadas y
 	    	  //se pasa al string de las materias posibles (eliminado de aqui todas aquellas en las cuales
-	    	  //esta removida es requisito)
-	    	  
+	    	  //esta removida es prequisito)
 	    	  
 	    	  //Agregando las materias posibles en funcion de la que se esta removiendo:
 	    	  //
@@ -928,11 +935,10 @@ public class AppController {
   } 
   
   
- 
-  List<String> prerrequisitosExcepto;
-  
   //Action para marcar una materia de "materias habiles" (por medio se su correlativo) como aprobada 
   //y removerla de las posibles y agregar las nuevas posibles en funcion de esa aprobada
+  List<String> prerrequisitosExcepto;
+  
   @PostMapping("/subjectsUpdateSuccess")
   public String subjectsUpdateSuccess(@RequestParam("subject") String subject, ModelMap modelMap){
 	  
@@ -1064,110 +1070,6 @@ public class AppController {
   } 
   
   
-  
-  @GetMapping("/closeSemesterSuccess")
-  public String closeSemesterSuccess(ModelMap modelMap) {
-	  
-	  
-	  //Lista que contiene los id de las materias que aprobo
-	  List<String> idsMateriasAprobadas = new ArrayList<>();
-	  
-	  
-	  
-	  Carrera carreraEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
-	  
-	  Carrera newCarrera = new Carrera();
-	  newCarrera = carreraEstudianteLogeado;
-	  //Actualizando materias aprobadas y cantidad de materias aprobadas:
-	  newCarrera.setMateriasAprobadas(newCarrera.getMateriasAprobadas()+String.join(",", idsMateriasAprobadas));
-	  newCarrera.setCantidadMateriasAprobadas(carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasAprobadas()+cantMateriasAprobadas);
-	  carreraService.updateCarreraG(carreraEstudianteLogeado, newCarrera);
-	  
-	  
-	  
-	//Lista de tabla Materia
-	  List<Materia> materias= new ArrayList<Materia>();
-	  List<String> materiasPosibles = new ArrayList<String>();
-	  
-	  List<String> matPosiblesOld = 
-	  Arrays.asList(carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles().split(","));
-	  
-	  
-	  List<String> matPosiblesFinal = new LinkedList<>(matPosiblesOld);
-	  
-	  materiaService.getMaterias().forEach(m->{
-		  materias.add(m);
-	  });
-	  
-	  //obteniendo las materias posibles a partis de los ids aprobados
-	  //y buscando las materias que tengan esos prerrequisitos
-	  materias.forEach(m->{
-		  prerrequisitos = Arrays.asList(m.getPreRequisito().split(","));
-		  
-		  prerrequisitos.forEach(p ->{
-			  if(idsMateriasAprobadas.contains(p)) {
-				  if(!materiasPosibles.contains(m)) {
-					  
-					  materiasPosibles.add(m.getIdMateria().toString());
-					  cantMateriasPosibles++;
-					  
-				  }
-			 } 
-		  });
-		  
-	  });
-	  
-	  //Sumando las que ya estan posibles y restandole las aprobadas
-	  cantMateriasPosibles += carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasPosibles();
-	  cantMateriasPosibles -= cantMateriasAprobadas;
-	  
-	  //quitando las materias posibles que ya se aprobaron en bdd 
-	  //y luego agregandole las nuevas posibles
-	  
-	  //Quitamos de matPosiblesFinal las que ya se pasaron
-	  idsMateriasAprobadas.forEach(m->{
-		  if(matPosiblesFinal.contains(m)) {
-			  matPosiblesFinal.remove(m);
-		  }
-	  });
-	  
-	  //Agregamos las materias posibles nuevas a matPosibles final:
-	  materiasPosibles.forEach(m->{
-		 if(!matPosiblesFinal.contains(m)) {
-			 matPosiblesFinal.add(m);
-		 } 
-	  });
-	  
-	  //convertimos matPosiblesFinal a string para actualizarlo
-	  
-	  newCarrera = carreraEstudianteLogeado;
-	  //error
-	  newCarrera.setCantidadMateriasPosibles(cantMateriasPosibles);
-	  newCarrera.setMateriasPosibles(String.join(",", matPosiblesFinal));
-	  carreraService.updateCarreraG(carreraEstudianteLogeado, newCarrera);
-	  
-	  cantMateriasAprobadas = 0;
-	  cantMateriasPosibles=0;
-	  prerrequisitos= new ArrayList<>();
-	  
-	  
-	modelMap.put("nombreEstudianteCSS", estudianteEjemplo.getNombreEstudiante());
-    return "closeSemesterSuccess.jsp"; 
-  }  
-  
-  
-  //@PostMapping("/subjectsUpdateSuccess2")
-  
-  
-  @GetMapping("/activitiesUpdate")
-  public String activitiesUpdate() {
-    return "activitiesUpdate.jsp";
-  }
-  
-  //@GetMapping("/subjectsUpdate")
-  
- 
-  
   @PostMapping("/addSubject")
   public String addSubject(@RequestParam("materia") String materia, ModelMap modelMap){
   
@@ -1183,7 +1085,7 @@ public class AppController {
   }
   
    
-  
+  //para loggearse
   @PostMapping("/loginn")   
   public String login(@RequestParam("CARNET") String CARNET,
 		  @RequestParam("PASSWORD") String PASSWORD, 
@@ -1260,7 +1162,7 @@ public class AppController {
 	   
   } 
   
-  
+  //para actualizar contrasena
   @PostMapping("/actualizarContrasena")
   public String actualizarContrasena(@RequestParam("nombrePR") String nombrePR,
 		  @RequestParam("carnetPR") String carnetPR, 
@@ -1299,7 +1201,7 @@ public class AppController {
 	
   } 
   
-  
+  //para registrar estudiante
   @PostMapping("/registrarEstudiante")
   public String registrarEstudiante(@RequestParam("nombreRe") String nombreRe,
 		  @RequestParam("carnetRe") String carnetRe, 
