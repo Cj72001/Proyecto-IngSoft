@@ -19,8 +19,6 @@
             <div class="box">
                 <input type="name" name="name" placeholder="Nuevo Nombre" onFocus="field_focus(this, 'nombre');"
                     onblur="field_blur(this, 'name');" class="carnet" />
-                <input type="number" name="year" placeholder="Año de Carrera" onFocus="field_focus(this, 'year');"
-                    onblur="field_blur(this, 'year');" class="carnet" />
                 <input type="carnet" name="carnet" placeholder="Carnet" onFocus="field_focus(this, 'carnet');"
                     onblur="field_blur(this, 'carnet');" class="carnet" />
             </div> <!-- End Box -->

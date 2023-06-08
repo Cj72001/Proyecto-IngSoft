@@ -45,11 +45,11 @@
     <form method="post" action="activitiesEdit">
     
       <div class="box">
-        <input type="text" name="idActivity" value="Numero de la actividad" onFocus="field_focus(this, 'nameActivity');" onblur="field_blur(this, 'nameActivity');" class="carnet" />
-        <input type="text" name="nombreActividad" value="Nombre de la actividad" onFocus="field_focus(this, 'nameActivity');" onblur="field_blur(this, 'nameActivity');" class="carnet" />
+        <input type="text" name="idActivity" placeholder="Numero de la actividad" onFocus="field_focus(this, 'nameActivity');" onblur="field_blur(this, 'nameActivity');" class="carnet" />
+        <input type="text" name="nombreActividad" placeholder="Nombre de la actividad" onFocus="field_focus(this, 'nameActivity');" onblur="field_blur(this, 'nameActivity');" class="carnet" />
         
       </div> <!-- End Box -->
-      <h3>${errorU}</h3>
+      <h3>${errorAE}</h3>
       
       <br> <input class="btn2"type="submit" value="EDITAR ACTIVIDAD">
       
