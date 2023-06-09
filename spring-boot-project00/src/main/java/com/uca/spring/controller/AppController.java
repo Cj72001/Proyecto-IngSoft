@@ -828,7 +828,7 @@ public class AppController {
 	  
 	  carreras.forEach( c -> {
 			 if(c.getIdCarrera().toString().equals(estudianteLogeado.getCarreraEstudiante().toString())) {
-				 carreraService.updateCarreraAnio(c,Integer.parseInt(year));
+				 ////TODO: IMPLEMENTA ACTUALIZACION
 			 }
 		  });
 	  
@@ -1367,7 +1367,7 @@ public class AppController {
 	  
 	  carreras.forEach(c -> {
 		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  carreraService.updateCarreraHI(c, Integer.parseInt(internal));
+		  ////TODO IMPLEMENTAR ACTUALIZACION
 	  }});
 	  
 	  
@@ -1391,7 +1391,7 @@ public class AppController {
 	  
 	  carreras.forEach(c -> {
 		  if(c.getIdCarrera().toString().equals(estudianteLogeado.getIdEstudiante().toString())){
-		  carreraService.updateCarreraHE(c, Integer.parseInt(external));
+			  ////TODO: IMPLEMENTAR ACTUALIZACION
 	  }});
 	  
 	  if(external.isEmpty()) {
