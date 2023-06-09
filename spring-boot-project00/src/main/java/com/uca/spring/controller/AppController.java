@@ -615,6 +615,8 @@ public class AppController {
     
   } 
   
+  
+  
 
   @GetMapping("/availableSubjects")
   public String availableSubjects(ModelMap modelmap) {
@@ -666,59 +668,6 @@ public class AppController {
 	modelMap.addAttribute("actividadesEstudianteLogeado", actividadesEstudianteLogeado);  
     return "activities.jsp";
   }
-  
-  @PostMapping("/activitiesEdit")
-  public String activitiesEdit(@RequestParam("idActivity") String idActivity, @RequestParam("nombreActividad") String nombreActividad,
-		  ModelMap modelMap) {
-	  
-	  if(idActivity.isEmpty() && nombreActividad.isEmpty() ) {
-		  modelMap.put("errorSU", "Llene al menos un espacio");
-		  
-		  availableSubjects(modelMap);
-		    return "availableSubjects.jsp";
-	  }
-	  else {
-		  
-		  List<ActividadesExtra> actividades = new ArrayList<ActividadesExtra>();
-		  actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
-		  
-		  int lastIdx = actividades.size()-1;
-		  ActividadesExtra lastActividad= actividades.get(lastIdx);
-		  int idActividadExtra= lastActividad.getIdEstudiante()+1;
-		  
-		  if(nombreActividad.isEmpty()){
-			  
-			  actividades.forEach(a ->{
-				  if(a.getIdActividadesExtra().toString().equals(idActivity)) {
-					  actividadesExtraService.deleteActividadExtraById(Integer.parseInt(idActivity));
-					  modelMap.addAttribute("${errorU}", "Se ha eliminado la actividad");
-				  }});
-				  
-		  }
-		  else {
-
-			  ActividadesExtra newActividadExtra = new ActividadesExtra();
-			  newActividadExtra.setIdActividadesExtra(idActividadExtra);
-			  newActividadExtra.setNombreActividadesExtra(nombreActividad);
-			  newActividadExtra.setIdEstudiante(estudianteLogeado.getIdEstudiante());
-			  actividadesExtraService.createActividadExtra(newActividadExtra);
-			  
-			  modelMap.addAttribute("${errorU}", "Se ha agregado la actividad");
-		  }
-			  
-		  activities(modelMap);
-		   return "activities.jsp";
-		  
-	  }
-	  
-	
-	  
-	  
-	  
-	
-  }
-  
-  
   
   @GetMapping("/activitiesUpdate")
   public String activitiesUpdate() {
@@ -847,6 +796,92 @@ public class AppController {
 	  }
 	   
   } 
+  
+//Actualizar nombre de usuario:
+  @PostMapping("/userUpdateSuccess")
+  public String userUpdateSuccess(@RequestParam("name") String name,
+		  @RequestParam("carnet") String carnet,ModelMap modelMap){
+	  
+	//Lista de tabla Estudiante
+	  List<Estudiante> estudiantes = new ArrayList<Estudiante>();
+	  estudianteService.getEstudiantes().forEach(e -> estudiantes.add(e));
+	  
+	  
+	  if(name.isEmpty() || carnet.isEmpty() ) {
+		  modelMap.put("errorUU", "No deje espacios en blanco");
+		    return "userUpdate.jsp";
+	  }
+	  //Si el usuario que modificara no esta en la bdd
+	  else if(!carnet.equals(estudianteLogeado.getCarnetEstudiante().toString())) {
+		  modelMap.put("errorUU", "Carnet incorrecto");
+		    return "userUpdate.jsp";
+	  }
+	  else{
+		  
+		  estudiantes.forEach( e -> {
+				 if(e.getCarnetEstudiante().toString().equals(estudianteLogeado.getCarnetEstudiante().toString())) {
+					 
+					 estudianteService.updateEstudianteName(e, name);
+				 }
+			  });
+		  
+		  modelMap.put("nombreEstudianteUUS", estudianteEjemplo.getNombreEstudiante());
+		    return "userUpdateSuccess.jsp";
+	  }
+	  
+    
+  } 
+  
+  //agregar o eliminar actividad:
+  @PostMapping("/activitiesEdit")
+  public String activitiesEdit(@RequestParam("idActivity") String idActivity, 
+  		  @RequestParam("nombreActividad") String nombreActividad,
+  		  ModelMap modelMap) {
+  	  
+  	if (idActivity.isEmpty() && nombreActividad.isEmpty()) {
+  		modelMap.put("errorAE", "Llene al menos un espacio");
+  		activities(modelMap);
+  		return "activities.jsp";
+  	} else {
+  		if (!nombreActividad.isEmpty() && idActivity.isEmpty()) {
+  			// Agregar una nueva actividad
+  			List<ActividadesExtra> actividades = new ArrayList<>();
+  			actividadesExtraService.getActividades().forEach(a -> actividades.add(a));
+
+  			int lastIdx = actividades.size() - 1;
+  			ActividadesExtra lastActividad = actividades.get(lastIdx);
+  			int idActividadExtra = lastActividad.getIdActividadesExtra() + 1;
+
+  			ActividadesExtra newActividadExtra = new ActividadesExtra();
+  			newActividadExtra.setIdActividadesExtra(idActividadExtra);
+  			newActividadExtra.setNombreActividadesExtra(nombreActividad);
+  			newActividadExtra.setIdEstudiante(estudianteLogeado.getIdEstudiante());
+  			actividadesExtraService.createActividadExtra(newActividadExtra);
+  			
+  			Carrera ca = carreraEstudianteLogeado;
+  			int cAEA = ca.getCantidadActividadesExtracurriculares();
+  			ca.setCantidadActividadesExtracurriculares(cAEA+1);
+  			carreraService.updateCarrera(ca);
+  			
+  			modelMap.addAttribute("errorAE", "Se ha agregado la actividad");
+  		}
+
+  		if (!idActivity.isEmpty() && nombreActividad.isEmpty()) {
+  			// Eliminar una actividad
+  			actividadesExtraService.deleteActividadExtraById(Integer.parseInt(idActivity));
+  			
+  			Carrera ca = carreraEstudianteLogeado;
+  			int cAEA = ca.getCantidadActividadesExtracurriculares();
+  			ca.setCantidadActividadesExtracurriculares(cAEA-1);
+  			carreraService.updateCarrera(ca);
+  			
+  			modelMap.addAttribute("errorAE", "Se ha eliminado la actividad");
+  		}
+
+  		activities(modelMap);
+  		return "activities.jsp";
+  	}
+  }
   
   
   @PostMapping("/actualizarContrasena")
