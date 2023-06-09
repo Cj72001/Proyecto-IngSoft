@@ -870,6 +870,140 @@ public class AppController {
 	     
   }
   
+//Action para marcar una materia de "materias habiles" (por medio se su correlativo) como aprobada 
+  //y removerla de las posibles y agregar las nuevas posibles en funcion de esa aprobada
+  List<String> prerrequisitosExcepto;
+  
+  @PostMapping("/subjectsUpdateSuccess")
+  public String subjectsUpdateSuccess(@RequestParam("subject") String subject, ModelMap modelMap){
+	  
+	  
+	  if(subject.isEmpty() ) {
+		  modelMap.put("errorSU", "No deje espacios en blanco");
+		  
+		  availableSubjects(modelMap);
+		    return "availableSubjects.jsp";
+	  }
+	  else {
+		  
+		//PARA MOSTRAR LAS POSIBLES MATERIAS DEL ESTUDIANTE LOGEADO:
+		  List<String> materias0 = new ArrayList<String>();
+		  
+		  String materiasPosiblesEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
+	      String[] split = materiasPosiblesEstudianteLogeado.split(",");
+	      
+	      for (int i=0; i<split.length; i++) {
+	    		  materias0.add(split[i]);
+	      } 
+	      
+	      //Para mostrar las materias aprobadas del estudiante logueado:
+	      List<String> materias1 = new ArrayList<String>();
+	      
+		  String materiasAprobadasEstudianteLogeado = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasAprobadas();
+	      String[] split1 = materiasAprobadasEstudianteLogeado.split(",");
+	      
+	      for (int i=0; i<split1.length; i++) {
+	    		  materias1.add(split1[i]);
+	      }
+	      
+	      
+	      //verificamos si la materia que quiere agregar en subject (como aprobada)
+	      //la tiene disponible y la puede agregar
+	      if(!materias0.contains(subject)) {
+	    	  modelMap.put("errorSU", "No puede inscribir una materia que no tiene habilitada");
+	    	  
+	    	  availableSubjects(modelMap);
+	    	  return "availableSubjects.jsp";
+	      }
+	      else {
+	    	  //sino se elimina de la lista de ids de posibles materias y
+	    	  //se pasa al string de las materias aprobadas
+	    	  
+	    	  //Solo se esta actualizando (removiendo) las materias posibles:
+	    	  materias0.remove(subject);
+	    	  
+	    	  //Agregando las materias posibles en funcion de la que se esta aprobando:
+	    	  //
+	    	  //
+	    	  
+	    	//Lista de tabla Materia
+	  		  List<Materia> materias= new ArrayList<Materia>();
+	  		materiaService.getMaterias().forEach(m->{
+	  			  materias.add(m);
+	  		  });
+	  		
+	  	//obteniendo las materias posibles a partir del los id aprobado
+	  		  //y buscando las materias que tengan esos prerrequisitos
+	  		  materias.forEach(m->{
+	  			  
+
+	  			  //por cada materia existente, se iran guardando los prerrequisitos
+	  			  prerrequisitos = Arrays.asList(m.getPreRequisito().split(","));
+	  			  
+	  			  //lista exceptuando el id de la materia y poder comprobar si ya se aprobaron las demas
+	  			  //materias (si los ids de las demas paterias prerrequisito estan en aprobadas)
+	  			  prerrequisitosExcepto = new ArrayList<>(prerrequisitos);
+	  			  prerrequisitosExcepto.remove(subject);
+	  			  
+	  			  prerrequisitos.forEach(p ->{
+	  				  
+	  				//para cada prerrequisito veremos si es la materia aprobada
+	  				  if(subject.equals(p) && materias1.containsAll(prerrequisitosExcepto)) {
+	  					  
+	  					  //entonces si el prerrequisito es el mismo y los demas prerrequisito ya se aprobaron
+	  					  //seleccionaremos la materia
+	  					  //si esa materia no esta en materias posibles ya:
+	  					  if(!materias0.contains(m.getIdMateria().toString())) {
+	  						  
+	  						  materias0.add(m.getIdMateria().toString());
+	  						  cantMateriasPosibles++;
+	  						  
+	  					  }
+	  				 } 
+	  			  });
+	  			  
+	  		  });
+	  		  
+	  		  //Sumando las nuevas que se contaron, mas las que ya estan posibles y restandole la aprobada
+	  		  cantMateriasPosibles += (carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasPosibles()) -1;
+	  		  
+	    	  nuevasMateriasPosibles = String.join(",", materias0);
+	          
+	    	  
+	    	  //Actualizando las materias aprobadas:
+		      materias1.add(subject);
+		      nuevasMateriasAprobadas = String.join(",", materias1);
+		      
+		      //cantidad de materia aprobadas
+		      cantMateriasAprobadas = (carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasAprobadas()) +1;
+		      
+		      //Actualizando materias posibles y materias aprobadas
+		      Carrera newCarrera = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
+	    	  newCarrera.setMateriasPosibles(nuevasMateriasPosibles);
+	    	  newCarrera.setMateriasAprobadas(nuevasMateriasAprobadas);
+	    	  newCarrera.setCantidadMateriasPosibles(cantMateriasPosibles);
+	    	  newCarrera.setCantidadMateriasAprobadas(cantMateriasAprobadas);
+	    	  carreraService.updateCarreraG(newCarrera, carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()) );
+	    	  
+	    	  
+	    	  //Reiniciando variables:
+	    	  cantMateriasAprobadas = 0;
+	  		  cantMateriasPosibles=0;
+	  		  prerrequisitos= new ArrayList<>();
+	    	  
+	      }
+	    
+	      
+	     
+	      //mostrar mensaje que la lista se ha actualizado correctamente
+    	  modelMap.put("nombreEstudianteUS", estudianteEjemplo.getNombreEstudiante());
+    	  
+    	  return "subjectsUpdateSuccess.jsp";
+    	  
+	      }
+	     
+  } 
+  
   @PostMapping("/socialUpdate2")
   public String socialUpdate2(@RequestParam("external") String external, ModelMap modelMap){
   
