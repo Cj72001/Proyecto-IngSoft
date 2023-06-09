@@ -172,9 +172,6 @@ public class AppController {
 	  carreraEstudiante1.setMateriasAprobadas("1,2,3,4");
 	  carreraEstudiante1.setCantidadMateriasPosibles(4);
 	  carreraEstudiante1.setMateriasPosibles("5,6,7,8");
-	  carreraEstudiante1.setHorasSocialesInternas(105);
-	  carreraEstudiante1.setHorasSocialesExterna(1);
-	  carreraEstudiante1.setAnioCarrera(4);
 	  carreraService.createCarrera(carreraEstudiante1);
 	  
 //Creando objetos tipo ActividadExtra (seran las actividades relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
@@ -742,12 +739,9 @@ public class AppController {
 	  
 	//menu atributos sobre la carrera del estudiante:
 	  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
-	  modelMap.put("anioEstudiante", "Estudiante de "+carreraEstudianteLogeado.getAnioCarrera()+" año");
 	  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
 	  modelMap.put("uVEstudiante", carreraEstudianteLogeado.getUvAprobadas());
 	  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
-	  modelMap.put("horasInternasEstudiante", carreraEstudianteLogeado.getHorasSocialesInternas());
-	  modelMap.put("horasExternasEstudiante", carreraEstudianteLogeado.getHorasSocialesExterna());
     return "mainPage.jsp";
   } 
   
@@ -1470,12 +1464,9 @@ public class AppController {
 			  
 					//menu atributos sobre la carrera del estudiante:
 					  modelMap.put("nombreEstudiante", estudianteLogeado.getNombreEstudiante());
-					  modelMap.put("anioEstudiante", "Estudiante de "+carreraEstudianteLogeado.getAnioCarrera()+" Anio");
 					  modelMap.put("numeroMateriasAprobadasEstudiante", carreraEstudianteLogeado.getCantidadMateriasAprobadas());
 					  modelMap.put("uVEstudiante", carreraEstudianteLogeado.getUvAprobadas());
 					  modelMap.put("materiasDisponiblesEstudiante", carreraEstudianteLogeado.getCantidadMateriasPosibles());
-					  modelMap.put("horasInternasEstudiante", carreraEstudianteLogeado.getHorasSocialesInternas());
-					  modelMap.put("horasExternasEstudiante", carreraEstudianteLogeado.getHorasSocialesExterna());
 					  
 					  return "mainPage.jsp";
 				  
@@ -1579,9 +1570,6 @@ public class AppController {
 		  newCarrera.setMateriasAprobadas("0");
 		  newCarrera.setCantidadMateriasPosibles(9);
 		  newCarrera.setMateriasPosibles("1,2,3,4,17,23,32,37,43");
-		  newCarrera.setHorasSocialesInternas(0);
-		  newCarrera.setHorasSocialesExterna(0);
-		  newCarrera.setAnioCarrera(1);
 		  carreraService.createCarrera(newCarrera);
 		  
 		 

@@ -51,9 +51,6 @@ public class CarreraService {
 			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
 			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
 			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(carrera.getHorasSocialesExterna());
-			oldCarrera.setHorasSocialesInternas(carrera.getHorasSocialesInternas());
-			oldCarrera.setAnioCarrera(newAnio);
 			carreraRepository.save(oldCarrera);
 		}
 		else {
@@ -73,9 +70,6 @@ public class CarreraService {
 			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
 			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
 			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(carrera.getHorasSocialesExterna());
-			oldCarrera.setHorasSocialesInternas(carrera.getHorasSocialesInternas());
-			oldCarrera.setAnioCarrera(newAnio);
 			carreraRepository.save(oldCarrera);
 		}
 		else {
@@ -95,9 +89,6 @@ public class CarreraService {
 			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
 			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
 			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(carrera.getHorasSocialesExterna());
-			oldCarrera.setHorasSocialesInternas(i);
-			oldCarrera.setAnioCarrera(carrera.getAnioCarrera());
 			carreraRepository.save(oldCarrera);
 		}
 		else {
@@ -117,9 +108,6 @@ public class CarreraService {
 			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
 			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
 			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(e);
-			oldCarrera.setHorasSocialesInternas(carrera.getHorasSocialesInternas());
-			oldCarrera.setAnioCarrera(carrera.getAnioCarrera());
 			carreraRepository.save(oldCarrera);
 		}
 		else {
