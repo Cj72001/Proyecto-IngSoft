@@ -21,7 +21,7 @@
 
     </div>
     <div>
-        <a class="btn2" href="${pageContext.request.contextPath}/semester">Regresar a mi Ciclo</a>
+        <a class="btn2" href="${pageContext.request.contextPath}/mainPage">Regresar a mi Proceso</a>
     </div>
 
 </body>

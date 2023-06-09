@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//No funcionan:
 import lombok.Getter;
 import lombok.Setter;
 

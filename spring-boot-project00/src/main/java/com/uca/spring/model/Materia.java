@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-// no funciona:
 import lombok.Getter;
 import lombok.Setter;
 
