@@ -40,6 +40,8 @@ public class Carrera {
 	@Column(name="CantidadActividadesExtracurriculares")
 	Integer cantidadActividadesExtracurriculares;
 	
+	@Column(name="NotaAprobada")
+	String notaAprobada;
 
 	public Integer getIdCarrera() {
 		return idCarrera;
@@ -65,12 +67,12 @@ public class Carrera {
 		this.cantidadMateriasAprobadas = cantidadMateriasAprobadas;
 	}
 
-	public String getMateriasAprobadas() {
-		return materiasAprobadas;
+	public String getNotaAprobada() {
+		return notaAprobada;
 	}
 
-	public void setMateriasAprobadas(String materiasAprobadas) {
-		this.materiasAprobadas = materiasAprobadas;
+	public void setNotaAprobada(String nota) {
+		this.notaAprobada = nota;
 	}
 
 	public Integer getCantidadMateriasPosibles() {
@@ -97,7 +99,13 @@ public class Carrera {
 		this.cantidadActividadesExtracurriculares = cantidadActividadesExtracurriculares;
 	}
 
-	
+	public String getMateriasAprobadas() {
+		return materiasAprobadas;
+	}
+
+	public void setMateriasAprobadas(String materiasAprobadas) {
+		this.materiasAprobadas = materiasAprobadas;
+	}
 	
 	
 	

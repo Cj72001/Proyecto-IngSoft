@@ -1,6 +1,7 @@
 package com.uca.spring.service;
 
-import java.util.List; 
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,4 +51,10 @@ public class MateriaService {
 		materiaRepository.deleteById(id);
 		return "Materia eliminada";
 	}
+	
+	public String getCategoriaById(int id) {
+		Materia materia = getMateriaById(id);
+		return materia.getCategoria();
+	}
+	
 }

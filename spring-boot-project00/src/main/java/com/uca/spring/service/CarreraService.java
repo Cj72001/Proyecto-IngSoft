@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uca.spring.model.Carrera;
+import com.uca.spring.model.Materia;
 import com.uca.spring.repository.CarreraRepository;
 
 @Service
@@ -64,5 +65,10 @@ public class CarreraService {
 		carreraRepository.deleteById(Id);
 		return "Carrera Eliminada";
 	}
+	
+	public String getNotasById(int id) {
+		Carrera carrera = getCarreraById(id);
+		return carrera.getNotaAprobada();	
+		}
 
 }
