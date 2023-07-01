@@ -29,6 +29,9 @@ public class Materia {
 	
 	@Column(name="Prerrequisito")
 	String preRequisito;
+	
+	@Column(name="Categoria")
+	String categoria;
 
 	public Integer getIdMateria() {
 		return idMateria;
@@ -62,7 +65,13 @@ public class Materia {
 		this.preRequisito = preRequisito;
 	}
 	
-	
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
 
 	
 }
