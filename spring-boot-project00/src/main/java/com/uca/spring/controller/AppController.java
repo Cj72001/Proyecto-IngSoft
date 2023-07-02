@@ -936,8 +936,23 @@ public class AppController {
 	    	  
 	    	  
 	    	  //Removiendo la materia aprobada de las materias aprobadas:
+	    	  int indexNota = materias1.indexOf(subject);
 		      materias1.remove(subject);
 		      nuevasMateriasAprobadas = String.join(",", materias1);
+		      
+	 
+		      //eliminando la nota de la materia a remover (en su indice respectivo)
+		      String [] notasAprobadas = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getNotaAprobada().split(",");
+		      
+		      List<String> na = new ArrayList<>();
+		      
+		      for(int i=0; i<notasAprobadas.length; i++) {
+		    	  if(i!=indexNota) {
+		    		  na.add(notasAprobadas[i]);
+		    	  }
+		      }
+		      
+		      String nuevasNotasAprobadas = String.join(",", na);
 		      
 		      //cantidad de materia aprobadas
 		      cantMateriasAprobadas -= 1;
@@ -946,6 +961,7 @@ public class AppController {
 		      Carrera newCarrera = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
 	    	  newCarrera.setMateriasPosibles(nuevasMateriasPosibles);
 	    	  newCarrera.setMateriasAprobadas(nuevasMateriasAprobadas);
+	    	  newCarrera.setNotaAprobada(nuevasNotasAprobadas);
 	    	  newCarrera.setCantidadMateriasPosibles(cantMateriasPosibles);
 	    	  newCarrera.setCantidadMateriasAprobadas(cantMateriasAprobadas);
 	    	  carreraService.updateCarreraG(newCarrera, carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()) );
