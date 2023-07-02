@@ -33,8 +33,8 @@
                 <tr>
                 	<td bgcolor="#e5e5e5"> Numero Correlativo</td>
                     <td bgcolor="#e5e5e5"> Nombre de la materia</td>
-                    <td bgcolor="#e5e5e5"> UV's </td>
                     <td bgcolor="#e5e5e5"> Prerequisito </td>
+                    <td bgcolor="#e5e5e5"> Nota </td>
                 </tr>
                 
                 <c:forEach var="m" items="${materiasMA}">
@@ -42,8 +42,8 @@
 				<tr>
                 <td>${m.getIdMateria()}</td>
                 <td>${m.getNombreMateria()}</td>
-                <td>${m.getUv()}</td>
                 <td>${m.getPreRequisito()}</td>
+                <td>${m.getNota()}</td>
                 </tr>
 			
 				</c:forEach>
