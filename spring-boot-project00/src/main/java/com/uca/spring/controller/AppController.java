@@ -80,6 +80,7 @@ public class AppController {
 	ActividadesExtra actividadExtraEstudianteEjemplo4 = new ActividadesExtra();
 	
 	//Crear todos los objetos para la malla curricular (ing informatica):
+	Materia materiaEstudianteEjemplo0= new Materia();
 	Materia materiaEstudianteEjemplo1= new Materia();
 	Materia materiaEstudianteEjemplo2= new Materia();
 	Materia materiaEstudianteEjemplo3= new Materia();
@@ -181,6 +182,12 @@ public class AppController {
 	  //seteando materias (seran las materias aprobadas relacionadas al estudiante) para ejemplo (este objeto se enlazara con Estudiante por medio de su FK)
 	  //OBJETO DE MALLA (prerequisito =0 cuando sea bachillerato)
 	  //materias de ingenieria informatica:
+	  materiaEstudianteEjemplo0.setNombreMateria("Bachillerato");
+	  materiaEstudianteEjemplo0.setIdMateria(0);
+	  materiaEstudianteEjemplo0.setUv(0);
+	  materiaEstudianteEjemplo0.setPreRequisito("0");
+	  materiaService.createMateria(materiaEstudianteEjemplo0);
+	  
 	  materiaEstudianteEjemplo1.setNombreMateria("Precálculo");
 	  materiaEstudianteEjemplo1.setIdMateria(1);
 	  materiaEstudianteEjemplo1.setUv(4);
