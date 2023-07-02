@@ -170,6 +170,8 @@ public class AppController {
 	  carreraEstudiante1.setUvAprobadas(102);
 	  carreraEstudiante1.setCantidadMateriasAprobadas(4);
 	  carreraEstudiante1.setMateriasAprobadas("1,2,3,4");
+	  //carreraEstudiante1.setNotaAprobada("10,5,5,5");
+	  carreraEstudiante1.setNotaAprobada("10,5,10,5");
 	  carreraEstudiante1.setCantidadMateriasPosibles(4);
 	  carreraEstudiante1.setMateriasPosibles("5,6,7,8");
 	  carreraEstudiante1.setCantidadActividadesExtracurriculares(2);
@@ -499,27 +501,53 @@ public class AppController {
   @GetMapping("/availableSubjects")
   public String availableSubjects(ModelMap modelmap) {
 	  
-	//Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
+	  //Separa las el id de las materias aprobadas que tiene el estudiante en la tabla carrera 
 	  //y busca las materias en la tabla Materia y las agrega a la lista materias para mostrarlas
-	  List<Materia> materias = new ArrayList<Materia>();
+	  List<Materia> materiasP = new ArrayList<Materia>();
+	  List<Materia> materiasA = new ArrayList<Materia>();
+	  List<Double> notaAprobada = new ArrayList<Double>();
 	  
-	  String materiasHabilesEstudiante = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles();
-      String[] split = materiasHabilesEstudiante.split(",");
+      String[] split1 = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasPosibles().split(",");
+      String[] split2 = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getMateriasAprobadas().split(",");
+      String[] split3 = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getNotaAprobada().split(",");
       
-	  
-      for (int i=0; i<split.length; i++) {
-    	  materias.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
+	  //Agregando las materias posibles
+      for (int i=0; i<split1.length; i++) {
+    	  materiasP.add(materiaService.getMateriaById(Integer.parseInt(split1[i])));
       }
+      materiasP.remove(null);
+     
+      //Agregando las materias aprobadas y sus notas
+      for (int i=0; i<split2.length; i++) {
+    	  materiasA.add(materiaService.getMateriaById(Integer.parseInt(split2[i])));
+    	  notaAprobada.add(Double.valueOf(split3[i]));
+      }
+      materiasA.remove(null);
+      notaAprobada.remove(null);
       
-      materias.remove(null);
+      //Obteniendo las materias recomendadas desde la clase Util
+      List<Materia> materiasR = Util.materiasRecomendadas(materiasP, materiasA, notaAprobada);
       
-      if(materias.isEmpty()) {
+      
+      
+      if(materiasP.isEmpty()) {
     	  modelmap.addAttribute("errorSem3", "En este momento no tienes materias disponibles");
+    	  modelmap.addAttribute("errorSem3", "En este momento no tienes materias recomendadas");
     	  return "availableSubjects.jsp";
       }
       else {
-    	  modelmap.addAttribute("materias", materias);
-    	  return "availableSubjects.jsp";
+    	  
+    	  if(materiasA.isEmpty()) {
+    		  modelmap.addAttribute("materias", materiasP);
+    		  modelmap.addAttribute("errorSem3", "En este momento no tienes materias recomendadas");
+        	  return "availableSubjects.jsp";
+    	  }
+    	  else {
+    		  modelmap.addAttribute("materias", materiasP);
+        	  modelmap.addAttribute("materiasR", materiasR);
+        	  return "availableSubjects.jsp";
+    	  }
+    	  
       }
       
       
@@ -940,10 +968,11 @@ public class AppController {
   List<String> prerrequisitosExcepto;
   
   @PostMapping("/subjectsUpdateSuccess")
-  public String subjectsUpdateSuccess(@RequestParam("subject") String subject, ModelMap modelMap){
+  public String subjectsUpdateSuccess(@RequestParam("subject") String subject, 
+		  @RequestParam("score") String score, ModelMap modelMap){
 	  
 	  
-	  if(subject.isEmpty() ) {
+	  if(subject.isEmpty() || score.isEmpty()) {
 		  modelMap.put("errorSU", "No deje espacios en blanco");
 		  
 		  availableSubjects(modelMap);
@@ -1038,6 +1067,7 @@ public class AppController {
 	    	  //Actualizando las materias aprobadas:
 		      materias1.add(subject);
 		      nuevasMateriasAprobadas = String.join(",", materias1);
+		      String nuevasNotasAprobadas = (carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getNotaAprobada())+","+score;
 		      
 		      //cantidad de materia aprobadas
 		      cantMateriasAprobadas = (carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getCantidadMateriasAprobadas()) +1;
@@ -1046,6 +1076,7 @@ public class AppController {
 		      Carrera newCarrera = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante());
 	    	  newCarrera.setMateriasPosibles(nuevasMateriasPosibles);
 	    	  newCarrera.setMateriasAprobadas(nuevasMateriasAprobadas);
+	    	  newCarrera.setNotaAprobada(nuevasNotasAprobadas);
 	    	  newCarrera.setCantidadMateriasPosibles(cantMateriasPosibles);
 	    	  newCarrera.setCantidadMateriasAprobadas(cantMateriasAprobadas);
 	    	  carreraService.updateCarreraG(newCarrera, carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()) );
@@ -1250,6 +1281,7 @@ public class AppController {
 		  newCarrera.setUvAprobadas(0);
 		  newCarrera.setCantidadMateriasAprobadas(0);
 		  newCarrera.setMateriasAprobadas("0");
+		  newCarrera.setNotaAprobada("0");
 		  newCarrera.setCantidadMateriasPosibles(9);
 		  newCarrera.setMateriasPosibles("1,2,3,4,17,23,32,37,43");
 		  newCarrera.setCantidadActividadesExtracurriculares(0);
