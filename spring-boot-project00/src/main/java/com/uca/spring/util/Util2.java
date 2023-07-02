@@ -46,6 +46,10 @@ public class Util2 {
 	// Declarar instancias de ejemplo
 	static Instance instancia1 = new DenseInstance(2);
 	static Instance instancia2 = new DenseInstance(2);
+	static Instance instancia3 = new DenseInstance(2);
+	static Instance instancia4 = new DenseInstance(2);
+	static Instance instancia5 = new DenseInstance(2);
+	static Instance instancia6 = new DenseInstance(2);
 
 	// Construir el clasificador Naive Bayes
 	static NaiveBayes clasificador = new NaiveBayes();
@@ -73,9 +77,25 @@ public class Util2 {
 		instancia1.setValue(atributos[1], "Recomendado");
 		dataset.add(instancia1);
 
-		instancia2.setValue(atributos[0], 6.2);
-		instancia2.setValue(atributos[1], "No Recomendado");
+		instancia2.setValue(atributos[0], 9.0);
+		instancia2.setValue(atributos[1], "Recomendado");
 		dataset.add(instancia2);
+		
+		instancia3.setValue(atributos[0], 7.0);
+		instancia3.setValue(atributos[1], "Recomendado");
+		dataset.add(instancia3);
+		
+		instancia4.setValue(atributos[0], 6.9);
+		instancia4.setValue(atributos[1], "No Recomendado");
+		dataset.add(instancia4);
+		
+		instancia5.setValue(atributos[0], 6.8);
+		instancia5.setValue(atributos[1], "No Recomendado");
+		dataset.add(instancia5);
+		
+		instancia5.setValue(atributos[0], 5.0);
+		instancia5.setValue(atributos[1], "No Recomendado");
+		dataset.add(instancia5);
 
 		// Entrenar el clasificador Naive Bayes
 		dataset.setClass(atributoRecomendacion);
