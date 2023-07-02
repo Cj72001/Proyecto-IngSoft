@@ -33,6 +33,7 @@ import com.uca.spring.model.Carrera;
 import com.uca.spring.model.Estudiante;
 import com.uca.spring.model.Logs;
 import com.uca.spring.model.Materia;
+import com.uca.spring.model.MateriaAprobada;
 import com.uca.spring.service.ActividadesExtraService;
 import com.uca.spring.service.CarreraService;
 import com.uca.spring.service.EstudianteService;
@@ -581,14 +582,32 @@ public class AppController {
 		for (int i = 0; i < split.length; i++) {
 			materiasMA.add(materiaService.getMateriaById(Integer.parseInt(split[i])));
 		}
+		
+		List<MateriaAprobada> materiasAprobadas = new ArrayList<MateriaAprobada>();
+		int sizeMA = materiasMA.size();
+		
+		String[] split2 = carreraService.getCarreraById(estudianteLogeado.getIdEstudiante()).getNotaAprobada().split(",");
+		
+		for(int i=0; i<sizeMA; i++) {
+			
+			MateriaAprobada ma = new MateriaAprobada();
+			ma.setIdMateria(materiasMA.get(i).getIdMateria());
+			ma.setNombreMateria(materiasMA.get(i).getNombreMateria());
+			ma.setUv(materiasMA.get(i).getUv());
+			ma.setPreRequisito(materiasMA.get(i).getPreRequisito());
+			ma.setNota(split2[i]);
+			
+			materiasAprobadas.add(ma);
+		}
 
 		materiasMA.remove(null);
+		materiasAprobadas.remove(null);
 
 		if (materiasMA.isEmpty()) {
 			modelmap.addAttribute("errorMA", "En este momento no tienes materias aprobadas");
 			return "approvedSubjects.jsp";
 		} else {
-			modelmap.addAttribute("materiasMA", materiasMA);
+			modelmap.addAttribute("materiasMA", materiasAprobadas);
 			return "approvedSubjects.jsp";
 		}
 
