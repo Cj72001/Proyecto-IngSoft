@@ -104,7 +104,7 @@ Por un lado, nos permite tener una separación clara de responsabilidades, lo cu
 
 ## Guia de instalación 
 <a name="guia"></a>
-- Link de documento para guia de instalacion: 
+- Link de documento para guia de instalacion: https://github.com/Cj72001/Proyecto-IngSoft/blob/Add-manuales/Documentos/Manual%20de%20instalacion.pdf
 
 
 ## **Tipos de error**  <a name="error1"></a>
