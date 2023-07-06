@@ -10,6 +10,8 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "Materia")
+
+//Verificar la generacion de los getters y setters, lombok
 @Getter
 @Setter
 public class Materia {
@@ -27,6 +29,49 @@ public class Materia {
 	
 	@Column(name="Prerrequisito")
 	String preRequisito;
+	
+	@Column(name="Categoria")
+	String categoria;
+
+	public Integer getIdMateria() {
+		return idMateria;
+	}
+
+	public void setIdMateria(Integer idMateria) {
+		this.idMateria = idMateria;
+	}
+
+	public String getNombreMateria() {
+		return nombreMateria;
+	}
+
+	public void setNombreMateria(String nombreMateria) {
+		this.nombreMateria = nombreMateria;
+	}
+
+	public Integer getUv() {
+		return uv;
+	}
+
+	public void setUv(Integer uv) {
+		this.uv = uv;
+	}
+
+	public String getPreRequisito() {
+		return preRequisito;
+	}
+
+	public void setPreRequisito(String preRequisito) {
+		this.preRequisito = preRequisito;
+	}
+	
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
 
 	
 }

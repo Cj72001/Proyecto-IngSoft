@@ -1,12 +1,12 @@
 package com.uca.spring.service;
 
-import java.util.List;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uca.spring.model.Carrera;
-import com.uca.spring.model.MiMateria;
+import com.uca.spring.model.Materia;
 import com.uca.spring.repository.CarreraRepository;
 
 @Service
@@ -41,7 +41,7 @@ public class CarreraService {
 		return oldC;
 	}
 	
-	public Carrera updateCarrera(Carrera carrera, Integer newAnio) {
+	public Carrera updateCarrera(Carrera carrera) {
 		Carrera oldCarrera = null;
 		java.util.Optional<Carrera> optionalCarrera = carreraRepository.findById(carrera.getIdCarrera());
 		if(optionalCarrera.isPresent()) {
@@ -51,9 +51,7 @@ public class CarreraService {
 			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
 			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
 			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(carrera.getHorasSocialesExterna());
-			oldCarrera.setHorasSocialesInternas(carrera.getHorasSocialesInternas());
-			oldCarrera.setAnioCarrera(newAnio);
+			oldCarrera.setCantidadActividadesExtracurriculares(carrera.getCantidadActividadesExtracurriculares());
 			carreraRepository.save(oldCarrera);
 		}
 		else {
@@ -62,75 +60,15 @@ public class CarreraService {
 		return oldCarrera;
 	}
 	
-	public Carrera updateCarreraAnio(Carrera carrera, Integer newAnio) {
-		Carrera oldCarrera = null;
-		java.util.Optional<Carrera> optionalCarrera = carreraRepository.findById(carrera.getIdCarrera());
-		if(optionalCarrera.isPresent()) {
-			oldCarrera = optionalCarrera.get();
-			oldCarrera.setIdCarrera(carrera.getIdCarrera());
-			oldCarrera.setUvAprobadas(carrera.getUvAprobadas());
-			oldCarrera.setCantidadMateriasAprobadas(carrera.getCantidadMateriasAprobadas());
-			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
-			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
-			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(carrera.getHorasSocialesExterna());
-			oldCarrera.setHorasSocialesInternas(carrera.getHorasSocialesInternas());
-			oldCarrera.setAnioCarrera(newAnio);
-			carreraRepository.save(oldCarrera);
-		}
-		else {
-			return new Carrera();
-		}
-		return oldCarrera;
-	}
-	
-	public Carrera updateCarreraHI(Carrera carrera, Integer i) {
-		Carrera oldCarrera = null;
-		java.util.Optional<Carrera> optionalCarrera = carreraRepository.findById(carrera.getIdCarrera());
-		if(optionalCarrera.isPresent()) {
-			oldCarrera = optionalCarrera.get();
-			oldCarrera.setIdCarrera(carrera.getIdCarrera());
-			oldCarrera.setUvAprobadas(carrera.getUvAprobadas());
-			oldCarrera.setCantidadMateriasAprobadas(carrera.getCantidadMateriasAprobadas());
-			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
-			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
-			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(carrera.getHorasSocialesExterna());
-			oldCarrera.setHorasSocialesInternas(i);
-			oldCarrera.setAnioCarrera(carrera.getAnioCarrera());
-			carreraRepository.save(oldCarrera);
-		}
-		else {
-			return new Carrera();
-		}
-		return oldCarrera;
-	}
-	
-	public Carrera updateCarreraHE(Carrera carrera, Integer e) {
-		Carrera oldCarrera = null;
-		java.util.Optional<Carrera> optionalCarrera = carreraRepository.findById(carrera.getIdCarrera());
-		if(optionalCarrera.isPresent()) {
-			oldCarrera = optionalCarrera.get();
-			oldCarrera.setIdCarrera(carrera.getIdCarrera());
-			oldCarrera.setUvAprobadas(carrera.getUvAprobadas());
-			oldCarrera.setCantidadMateriasAprobadas(carrera.getCantidadMateriasAprobadas());
-			oldCarrera.setMateriasAprobadas(carrera.getMateriasAprobadas());
-			oldCarrera.setCantidadMateriasPosibles(carrera.getCantidadMateriasPosibles());
-			oldCarrera.setMateriasPosibles(carrera.getMateriasPosibles());
-			oldCarrera.setHorasSocialesExterna(e);
-			oldCarrera.setHorasSocialesInternas(carrera.getHorasSocialesInternas());
-			oldCarrera.setAnioCarrera(carrera.getAnioCarrera());
-			carreraRepository.save(oldCarrera);
-		}
-		else {
-			return new Carrera();
-		}
-		return oldCarrera;
-	}
 	
 	public String deleteCarreraById(int Id) {
 		carreraRepository.deleteById(Id);
 		return "Carrera Eliminada";
 	}
+	
+	public String getNotasById(int id) {
+		Carrera carrera = getCarreraById(id);
+		return carrera.getNotaAprobada();	
+		}
 
 }

@@ -91,6 +91,12 @@
 </dependency>
 
 <dependency>
+  <groupId>com.h2database</groupId>
+  <artifactId>h2</artifactId>
+  <version>1.4.200</version>
+</dependency>
+
+<dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-entitymanager</artifactId>
 </dependency>
@@ -105,6 +111,14 @@
     <artifactId>javassist</artifactId>
     <version>3.25.0-GA</version>
 </dependency>
+
+    <!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
+<dependency>
+    <groupId>nz.ac.waikato.cms.weka</groupId>
+    <artifactId>weka-stable</artifactId>
+    <version>3.8.0</version>
+</dependency>
+
 
 	</dependencies>
 	<build>
